@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-26 17:09:02
+/* Smarty version 3.1.33, created on 2019-06-27 14:50:03
   from 'C:\xampp\htdocs\shopping_cart\view\confirm.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d13362ec59178_65913180',
+  'unifunc' => 'content_5d14671b225d28_60930690',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '04f4be872433cf1cefc27d0096820ad2c3db390a' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\confirm.tpl',
-      1 => 1561540142,
+      1 => 1561618202,
       2 => 'file',
     ),
   ),
@@ -20,10 +20,11 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d13362ec59178_65913180 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d14671b225d28_60930690 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div class = "container" style="background:white">
     <div class = "row">
         <div class = 'col-lg-12'>
+            <!-- For shopping confirm page -->
             <?php if ($_smarty_tpl->tpl_vars['confirm_type']->value == 'shopping') {?>
                 <ul class = "nav" style="text-align:center;">
                     <h3><strong>確認購買以下商品?</strong></h3>
@@ -73,12 +74,12 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                         </div>
                         <div class = "col-lg-12">
                             <div class = "col-lg-8">
-                                <h3><strong>目前金額 ： NT$ <?php echo $_smarty_tpl->tpl_vars['wallet']->value;?>
+                                <h3><strong>目前金額 ： E幣 <?php echo $_smarty_tpl->tpl_vars['wallet']->value;?>
 </strong></h3>
-                                <h3><strong>商品金額 ： NT$ <?php echo $_smarty_tpl->tpl_vars['total']->value;?>
+                                <h3><strong>商品金額 ： E幣 <?php echo $_smarty_tpl->tpl_vars['total']->value;?>
 </strong></h3>
                                 <hr>
-                                <h3><strong>剩餘金額 ： NT$ <?php echo $_smarty_tpl->tpl_vars['wallet']->value-$_smarty_tpl->tpl_vars['total']->value;?>
+                                <h3><strong>剩餘金額 ： E幣 <?php echo $_smarty_tpl->tpl_vars['wallet']->value-$_smarty_tpl->tpl_vars['total']->value;?>
 </strong></h3>
                             </div>
                             <div class = "col-lg-4">
@@ -106,21 +107,27 @@ foreach ($_from as $_smarty_tpl->tpl_vars['shopping_cart']->value) {
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                                 <?php }?>
                                 <button type = "button" onclick = "history.back()" class = "btn btn-primary">返回</button>
-                                <button type = "submit" class = "btn btn-primary" name = "total_confirm" onclick = "return confirm('確認結帳?')">
-                                    <i class="fas fa-cash-register fa" style = "padding-right:1em; color:white"></i>結帳
-                                </button>
+                                <?php if ($_smarty_tpl->tpl_vars['wallet']->value < $_smarty_tpl->tpl_vars['total']->value) {?>
+                                    <input class = "btn btn-primary" type = "submit" value = "餘額不足" disabled>
+                                <?php } else { ?>
+                                    <button type = "submit" class = "btn btn-primary" name = "total_confirm" onclick = "return confirm('確認結帳?')">
+                                        <i class="fas fa-cash-register fa" style = "padding-right:1em; color:white"></i>結帳
+                                    </button>
+                                <?php }?>
                             </div>
                         </div>
                     </form>
                 </div>
+            <!-- For recharge tab -->
             <?php } elseif ($_smarty_tpl->tpl_vars['confirm_type']->value == 'recharge') {?>
                 <ul class = "nav" style="text-align:center;">
                     <h2><strong>確認送出交易?</strong></h2>
                     <label>
-                        <p>您所選擇的面額為$NT <?php echo $_smarty_tpl->tpl_vars['coin']->value;?>
+                        <p>您所選擇的面額為E幣 <?php echo $_smarty_tpl->tpl_vars['coin']->value;?>
 </p>
                         您將儲值<span style="font-size: 25px;color:tomato">
-                        <?php if ($_smarty_tpl->tpl_vars['coin']->value == 100) {?>
+                        <?php if ($_smarty_tpl->tpl_vars['coin']->value == 100) {
+$_smarty_tpl->_assignInScope('e_coin', 100);?>100
                         <?php } elseif ($_smarty_tpl->tpl_vars['coin']->value == 250) {
 $_smarty_tpl->_assignInScope('e_coin', 250);?>250
                         <?php } elseif ($_smarty_tpl->tpl_vars['coin']->value == 500) {
@@ -180,6 +187,70 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                         <?php }?>
                     </form>
                 </ul>
+            <!-- For change tab -->
+            <?php } elseif ($_smarty_tpl->tpl_vars['confirm_type']->value == 'change') {?>
+            <ul class = "nav" style="text-align:center;">
+                <h2><strong>確認送出交易?</strong></h2>
+                <label>
+                    <p>您所選擇的面額為<span style="font-size: 25px;color:tomato">E幣: <?php echo $_smarty_tpl->tpl_vars['amount_of_money']->value;?>
+</span></p>
+                    您將兌換<span style="font-size: 25px;color:tomato">E幣
+                    <?php if ($_smarty_tpl->tpl_vars['amount_of_money']->value == 85) {
+$_smarty_tpl->_assignInScope('money', 85);?>85
+                    <?php } elseif ($_smarty_tpl->tpl_vars['amount_of_money']->value == 250) {
+$_smarty_tpl->_assignInScope('money', 212.5);?>212.5
+                    <?php } elseif ($_smarty_tpl->tpl_vars['amount_of_money']->value == 500) {
+$_smarty_tpl->_assignInScope('money', 425);?>425
+                    <?php } elseif ($_smarty_tpl->tpl_vars['amount_of_money']->value == 1000) {
+$_smarty_tpl->_assignInScope('money', 850);?>850
+                    <?php } elseif ($_smarty_tpl->tpl_vars['amount_of_money']->value == 2000) {
+$_smarty_tpl->_assignInScope('money', 1700);?>1700
+                    <?php } elseif ($_smarty_tpl->tpl_vars['amount_of_money']->value == 5000) {
+$_smarty_tpl->_assignInScope('money', 4250);?>4250
+                    <?php }?></span>
+                    至 帳戶: <span style="font-size: 25px;color:tomato"><?php echo $_smarty_tpl->tpl_vars['users']->value[0]['wallet_account'];?>
+</span>
+                </label>
+                <div class = "row">
+
+                    <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['users']->value, 'user');
+if ($_from !== null) {
+foreach ($_from as $_smarty_tpl->tpl_vars['user']->value) {
+?>
+                        <div class = "col-lg-6">
+                            <i class="fas fa-user fa-2x" style = "margin-top:1em ;display:block;">您的帳戶 ： <?php echo $_smarty_tpl->tpl_vars['user']->value['wallet_account'];?>
+</i>
+                            <i class="fas fa-wallet fa-2x" style = "margin-top:1em;display:block;">帳戶餘額 ： <?php echo $_smarty_tpl->tpl_vars['user']->value['money'];?>
+</i>
+                            <i class="fas fa-wallet fa-2x" style = "margin-top:1em">兌換後餘額 ： <?php echo sprintf("%.2f",$_smarty_tpl->tpl_vars['user']->value['money']+$_smarty_tpl->tpl_vars['money']->value);?>
+ </i>
+                        </div>
+                        <div class = "col-lg-6">
+                            <i class="fas fa-wallet fa-2x" style="margin-top:1em;">目前<i class="fab fa-edge" style=""></i>幣 ： <?php echo $_smarty_tpl->tpl_vars['user']->value['e_coin'];?>
+</i>
+                            <br>
+                                <i class="fas fa-wallet fa-2x" style="margin-top:1em;">兌換後<i class="fab fa-edge" style=""></i>幣 ： <?php echo sprintf("%.2f",$_smarty_tpl->tpl_vars['user']->value['e_coin']-$_smarty_tpl->tpl_vars['amount_of_money']->value);?>
+</i>
+                        </div>
+                    <?php
+}
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                </div>
+                <form action = "transfer" method="post">
+                    <input type ="hidden" name = "money" value = "<?php echo $_smarty_tpl->tpl_vars['money']->value;?>
+">
+                    <input type ="hidden" name = "e_coin" value = "<?php echo $_smarty_tpl->tpl_vars['amount_of_money']->value;?>
+">
+                    <button type = "button" onclick = "history.back()" class = "btn btn-primary">返回</button>
+                    <?php if ($_smarty_tpl->tpl_vars['user']->value['e_coin'] < sprintf("%.2f",$_smarty_tpl->tpl_vars['amount_of_money']->value)) {?>
+                        <input type ="submit" class = "btn btn-primary" value = "餘額不足" disabled>
+                    <?php } else { ?>
+                        <input type ="submit" class = "btn btn-primary" name = "change" value = "送出" onclick="return confirm('確認送出?');">
+                    <?php }?>
+                </form>
+            </ul>
             <?php }?>
         </div>
     </div>

@@ -29,7 +29,7 @@
             </ul>
         </div>
         <div class = "col-lg-2" style="text-align:center;">
-            <i class="fab fa-edge fa-3x" style = "color:#e6c61e;line-height: 100px;vertical-align: middle;">{$users[0]['e_coin']|string_format:"%.2f"}</i>
+            <i class="fas fa-coins fa-3x" style = "color:#e6c61e;line-height: 100px;vertical-align: middle;">{$users[0]['e_coin']|string_format:"%.2f"}</i>
             <form action = "recharge" method = "post">
                 <input type = "hidden" name = "money" value = "{$money}">
                 <button type = "submit" class = "btn btn-info">儲值</button>
@@ -38,7 +38,7 @@
     </div>
     <div class = "row">
         <div class="tab-content">
-            <div id="user" class="tab-pane fade in active">
+            <div id="user" class="tab-pane fade ">
                 <div class="col-md-10" style = "padding:5px">
                     <img src = "/uploads/{$avatar}" style = "width:150px; height:150px; float:left; border-radius:50%; margin-right:25px;">
                     <h2>
@@ -90,7 +90,7 @@
                         </table>
                     <!-- </div> -->
                     <!-- <div class = "container"> -->
-                        <i class="fas fa-money-bill-alt fa-3x">ToTal price ： {$total_price}</i>
+                        <i class="fas fa-money-bill-alt fa-3x">ToTal price ： E幣 {$total_price}</i>
                         <form action = "confirm" method = "POST" style="float: right;">
                             <input type = "hidden" name = "total" value = "{$total_price}">
 
@@ -224,20 +224,40 @@
             </div>
             <div id="wallet" class="tab-pane fade">
                 <div class = "row">
-                    <div class = "col-lg-8" style = "height:100px; display:inline-grid;">
+                    <div class = "col-lg-12" style = "height:100px; display:inline-grid;">
                         {foreach $users as $user}
                             <i class="fas fa-user fa-2x" style = "">帳戶號碼 ： {$user['wallet_account']}</i>
-                            <i class="fas fa-wallet fa-2x">帳戶餘額 ： $NT {$user['money']}</i>
+                            <i class="fas fa-wallet fa-2x">帳戶餘額 ： NT$ {$user['money']}</i>
                         {/foreach}
-                        <h3><strong>交易紀錄</strong></h3>
                     </div>
                     <div class = "col-lg-12">
-                        {foreach $orders as $item =>$order}
-                            <button class="collapsible" style="border: 1px solid;">第{$item+1}筆: $NT -{$order['money']}</button>
-                            <div class="content">
-                                <strong><span>於{$order['created_at']|strtotime|date_format:"%Y %m %d"} 購買 {$order['name']} 數量 {$order['quantity']} 共 {$order['money']*$order['quantity']} 元</span></strong>
-                            </div>
-                        {/foreach}
+                        <ul class = "nav nav-tabs">
+                            <li><a data-toggle = "" href = "#shop_record">購買紀錄</a></li>
+                            <li><a data-toggle = "" href = "#recharge_record">儲值、兌換紀錄</a></li>
+                        </ul>
+
+                    </div>
+                    <div class = "tab-content">
+                        <div id = "shop_record" class = "tab-pane fade in active">
+                            {foreach $orders as $item =>$order}
+                                <button class="collapsible" style="border: 1px solid;">第{$item+1}筆: NT$ -{$order['money']*$order['quantity']}</button>
+                                <div class="content">
+                                    <strong><span>於{$order['created_at']|strtotime|date_format:"%Y %m %d"} 購買 {$order['name']} 數量 {$order['quantity']} 共 {$order['money']*$order['quantity']} 元</span></strong>
+                                </div>
+                            {/foreach}
+                        </div>
+                        <div id = "recharge_record" class = "tab-pane fade">
+                            {foreach $recharges as $index => $recharge}
+                                <div>
+                                    第{$index}筆:
+                                    {if $recharge['status'] eq 0}
+                                        <strong><span>於{$recharge['created_at']|strtotime|date_format:"%Y %m %d"} 儲值 {$recharge['e_coin']} E幣 至 帳戶 : {$recharge['target_account']}</span></strong>
+                                    {else}
+                                        <strong><span>於{$recharge['created_at']|strtotime|date_format:"%Y %m %d"} 花費 {$recharge['e_coin']} E幣 兌換 NT$ {$recharge['money']}</span></strong>
+                                    {/if}
+                                </div>
+                            {/foreach}
+                        </div>
                     </div>
                 </div>
             </div>

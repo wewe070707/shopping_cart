@@ -54,11 +54,11 @@
                                 <h4 style="line-height: inherit;"><STRIKE>${$product['price_before_discount']}</STRIKE></h4>
                             </div>
                             <div class = "col-lg-9">
-                                <h3><strong style="color:tomato">NT$ {$product['price']}</strong></h3>
+                                <h3><strong style="color:tomato">E幣 {$product['price']}</strong></h3>
                             </div>
                         </div>
                         {else}
-                            <h3><strong>NT$ {$product['price']}</strong></h3>
+                            <h3><strong>E幣 {$product['price']}</strong></h3>
                         {/if}
 
                     </a>
@@ -97,7 +97,7 @@
                         <img src = "/uploads/images/{$random_prod['image']}" style = "width:150px;height:150px;" title ="{$random_prod['description']}">
                     </div>
                     <span id = "test" style="line-height: 40px;">{$random_prod['name']}</span>
-                    <h3><strong>NT$ {$random_prod['price']}</strong></h3>
+                    <h3><strong>E幣 {$random_prod['price']}</strong></h3>
                     <form id = "number_form" action="/add_cart" method="post" >
                         <input type = "hidden" name = "image" value = "{$random_prod['image']}">
                         <input type = "hidden" name = "product_id" value = "{$random_prod['id']}">

@@ -2,12 +2,14 @@
     <h2 style = "text-align:center;">以下為<strong>{$search_text}</strong>的搜尋結果</h2>
     {foreach $query_results as $query_result}
         <div id = "products" style ="margin: 1em;">
-            <div id = "products-image">
-                <img src = "/uploads/images/{$query_result['image']}" style = "width:150px;height:150px;" title ="{$query_result['description']}">
-            </div>
-            <span>{$query_result['name']}</span>
-            <!-- <span>{$result['id']}</span> -->
-            <h4>{$query_result['price']}</h4>
+            <a href = "product?product_id={$query_result['id']}" style = "color: inherit;" >
+                <div id = "products-image">
+                    <img src = "/uploads/images/{$query_result['image']}" style = "width:150px;height:150px;" title ="{$query_result['description']}">
+                </div>
+                <span>{$query_result['name']}</span>
+                <!-- <span>{$result['id']}</span> -->
+                <h4>{$query_result['price']}</h4>
+            </a>
             <form id = "number_form" action="/add_cart" method="post" >
                 <input type = "hidden" name = "image" value = "{$query_result['image']}">
                 <input type = "hidden" name = "product_id" value = "{$query_result['id']}">

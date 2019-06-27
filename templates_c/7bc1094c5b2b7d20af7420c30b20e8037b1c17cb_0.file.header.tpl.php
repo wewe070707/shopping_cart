@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-25 15:35:35
+/* Smarty version 3.1.33, created on 2019-06-27 17:25:02
   from 'C:\xampp\htdocs\shopping_cart\view\layout\header.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d11cec7d22883_76329768',
+  'unifunc' => 'content_5d148b6e8face4_75025452',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '7bc1094c5b2b7d20af7420c30b20e8037b1c17cb' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\layout\\header.tpl',
-      1 => 1561448132,
+      1 => 1561627501,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d11cec7d22883_76329768 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d148b6e8face4_75025452 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,6 +66,10 @@ function content_5d11cec7d22883_76329768 (Smarty_Internal_Template $_smarty_tpl)
                                     <a class="nav-link" href="/home"><h3>Home</h3></a>
                                 </li>
                             <?php }?>
+                        <?php } else { ?>
+                            <li>
+                                <a class="nav-link" href="/home"><h3>Home</h3></a>
+                            </li>
                         <?php }?>
                     </ul>
                 </div>

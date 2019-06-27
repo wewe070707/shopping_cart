@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-25 16:02:37
+/* Smarty version 3.1.33, created on 2019-06-27 17:20:52
   from 'C:\xampp\htdocs\shopping_cart\view\product.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d11d51da33b92_45846887',
+  'unifunc' => 'content_5d148a74129201_26804624',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '561475a951211867809d4c145f037a3d5ceb4219' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\product.tpl',
-      1 => 1561449756,
+      1 => 1561627249,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d11d51da33b92_45846887 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d148a74129201_26804624 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div class = "container">
     <div class = "row" style="background:white;">
         <?php
@@ -41,15 +41,15 @@ foreach ($_from as $_smarty_tpl->tpl_vars['product']->value) {
                 <div>
                     <?php if ($_smarty_tpl->tpl_vars['product']->value['price_before_discount'] != 0) {?>
                         <div class = "col-lg-2">
-                            <h3><STRIKE style="font-size: 20px;">NT$<?php echo $_smarty_tpl->tpl_vars['product']->value['price_before_discount'];?>
+                            <h3><STRIKE style="font-size: 20px;"> <?php echo $_smarty_tpl->tpl_vars['product']->value['price_before_discount'];?>
 </STRIKE></h3>
                         </div>
                         <div class = "col-lg-10">
-                            <h3><strong style="color:tomato">NT$ <?php echo $_smarty_tpl->tpl_vars['product']->value['price'];?>
+                            <h3><strong style="color:tomato">E幣 <?php echo $_smarty_tpl->tpl_vars['product']->value['price'];?>
 </strong></h3>
                         </div>
                     <?php } else { ?>
-                        <h3><strong>NT$ <?php echo $_smarty_tpl->tpl_vars['product']->value['price'];?>
+                        <h3><strong>E幣 <?php echo $_smarty_tpl->tpl_vars['product']->value['price'];?>
 </strong></h3>
                     <?php }?>
                 </div>
@@ -163,7 +163,7 @@ foreach ($_from as $_smarty_tpl->tpl_vars['random_prod']->value) {
                 </div>
                 <span id = "test" style=""><?php echo $_smarty_tpl->tpl_vars['random_prod']->value['name'];?>
 </span>
-                <h3><strong>NT$ <?php echo $_smarty_tpl->tpl_vars['random_prod']->value['price'];?>
+                <h3><strong>E幣 <?php echo $_smarty_tpl->tpl_vars['random_prod']->value['price'];?>
 </strong></h3>
             </a>
             <form id = "number_form" action="/add_cart" method="post" >

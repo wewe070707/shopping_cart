@@ -25,9 +25,9 @@
         <div class = "tab-content">
             <div id = "recharge" class = "tab-pane fade">
                 <form action="confirm" role = "form"method ="post">
-                    <label style="display:block;">
+                    <label style="display:block; margin-top:1em;">
                         <span class="" style="">► 1.</span>
-                        您要儲值的點數
+                        您要儲值的點數為<i class="fas fa-coins fa-2x" style = "color:#e6c61e;"></i> E 幣
                     </label>
                     <label>
                         <span class="" style="">► 2.</span>
@@ -37,35 +37,25 @@
                         <span class="" style="">► 3.</span>
                         您要儲值的面額
                     </label>
-                    <div id="coin" data-toggle="" data-disable="false">
-                          <label class="btn btn-primary btn-block" style="color: black;">
-                            <input type="radio" name="coin" id="option1" value = "100"> $NT 100 (100 <i class="fab fa-edge"></i> 幣)
-                          </label>
-                          <label class="btn btn-primary btn-block" style="color: black;">
-                            <input type="radio" name="coin" id="option2" value = "250"> $NT 250 (250 <i class="fab fa-edge"></i> 幣)
-                          </label>
-                          <label class="btn btn-primary btn-block" style="color: black;">
-                            <input type="radio" name="coin" id="option3" value = "500"> $NT 500 (525 <i class="fab fa-edge"></i> 幣)
-                          </label>
-                          <label class="btn btn-primary btn-block" style="color: black;">
-                            <input type="radio" name="coin" id="option3" value = "1000"> $NT 1000 (1075 <i class="fab fa-edge"></i> 幣)
-                          </label>
-                          <label class="btn btn-primary btn-block" style="color: black;">
-                            <input type="radio" name="coin" id="option3" value = "2000"> $NT 2000 (2200 <i class="fab fa-edge"></i> 幣)
-                          </label>
-                          <label class="btn btn-primary btn-block" style="color: black;">
-                            <input type="radio" name="coin" id="option3" value = "5000"> $NT 5000 (5750 <i class="fab fa-edge"></i> 幣)
-                          </label>
-                          <input id = "confirm" type="submit" class = "btn btn-block" name="recharge_submit" value="確認">
+                    <div id="coin">
+                        <div class = "col-lg-12">
+                              <label><input type="radio" name="coin" id="option1" value = "100"><span> $NT 100 <br> (100 E 幣)</span></label>
+                              <label><input type="radio" name="coin" id="option2" value = "250"><span> $NT 250 <br> (250 E 幣)</span></label>
+                              <label><input type="radio" name="coin" id="option3" value = "500"><span> $NT 500 <br> (525 E 幣)</span> </label>
+                              <label><input type="radio" name="coin" id="option3" value = "1000"><span> $NT 1000 <br> (1075 E 幣)</span></label>
+                              <label><input type="radio" name="coin" id="option3" value = "2000"><span> $NT 2000 <br> (2200 E 幣)</span></label>
+                              <label><input type="radio" name="coin" id="option3" value = "5000"><span> $NT 5000 <br> (5750 E 幣)</span></label>
+                        </div>
+                          <input id = "confirm" type="submit" class = "btn btn-primary btn-block" name="recharge_submit" value="確認" disabled>
                           <!-- <button type="submit" name ="submit"  onclick="javascript:document.forms[0].submit();">確認</button> -->
                     </div>
                 </form>
             </div>
             <div id = "change" class = "tab-pane fade">
                 <form action="confirm" method ="post">
-                    <label style="display:block;">
+                    <label style="display:block; margin-top:1em;">
                         <span class="" style="">► 1.</span>
-                        您要兌換的數量
+                        您目前將要用 <i class="fas fa-coins fa-2x" style = "color:#e6c61e;"></i> E 幣 兌換為 NT$
                     </label>
                     <label>
                         <span class="" style="">► 2.</span>
@@ -86,7 +76,7 @@
                             <div class  ="col-lg-12">
                                 <label><input type="radio" name="money" value = "5000"><span>5000 E 幣<br>($NT 4250 )</span></label>
                             </div>
-                            <input id = "confirm" type="submit" class = "btn btn-block" name="change_submit" value="確認">
+                            <input id = "confirm" type="submit" class = "btn btn-block btn-primary" name="change_submit" value="確認" disabled>
                     </div>
 
                 </form>

@@ -86,12 +86,15 @@ class UserVeridator {
 		return true;
     }
 
+    /**
+    *   驗證帳戶是否存在於資料庫中
+    **/
     public function isAccountExist($wallet_account){
         $result = Database::get()->execute('SELECT wallet_account FROM users WHERE wallet_account = :wallet_account', array(':wallet_account' => $wallet_account));
         if(isset($result[0]['wallet_account']) AND !empty($result[0]['wallet_account'])){
             return true;
         } else{
-            $this->error[] = '<div class="alert alert-danger">This account doesn\'t exist.</div>';
+            $this->error[] = 'This account doesn\'t exist';
             return false;
         }
     }

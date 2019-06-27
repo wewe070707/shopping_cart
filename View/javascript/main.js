@@ -14,6 +14,11 @@
 // });
 
 $(document).ready(function(){
+// Prevent user reload page again and again after submiting form
+if ( window.history.replaceState ) {
+    window.history.replaceState( null, null, window.location.href );
+}
+
 var coll = document.getElementsByClassName("collapsible");
 var i;
 
@@ -31,9 +36,9 @@ for (i = 0; i < coll.length; i++) {
 
 
 //Checkbox disabled until checkbox checked
-$('#check').change(function () {
-    $('#status_submit').prop("disabled", !this.checked);
-}).change()
+// $('#check').change(function () {
+//     $('#status_submit').prop("disabled", !this.checked);
+// }).change()
 
 
 
@@ -72,12 +77,6 @@ function changeImage(element) {
     document.getElementById("imgChange").src = $(element).attr('src');
 }
 
-$(function(){
-    $("input[type = 'radio']").change(function(){
-         $("input[type='submit']").prop("disabled", false);
-    });
-})
-
 $(function() {
     $("textarea[maxlength]").bind('input propertychange', function() {
         var maxLength = $(this).attr('maxlength');
@@ -107,4 +106,20 @@ $(function(){
         window.location.hash = this.hash;
         $('html,body').scrollTop(scrollmem);
     });
+});
+
+//Checkbox disabled until checkbox checked
+$(function(){
+    var init_hash = window.location.hash;
+    $("input[type='radio']").change(function(){
+        $("input[type='submit']").prop("disabled", false);
+    });
+    // If tab changed, unchecked the selected radio button
+    $("a[data-toggle = 'tab']").click(function(){
+        var hash = window.location.hash;
+        if(init_hash != hash){
+            $("input[type='radio']").prop('checked', false);
+        }
+    });
+
 });

@@ -31,6 +31,10 @@
                                     <a class="nav-link" href="/home"><h3>Home</h3></a>
                                 </li>
                             {/if}
+                        {else}
+                            <li>
+                                <a class="nav-link" href="/home"><h3>Home</h3></a>
+                            </li>
                         {/if}
                     </ul>
                 </div>

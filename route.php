@@ -14,7 +14,7 @@ date_default_timezone_set('Asia/Taipei');
 
 // 用參數決定載入某頁並讀取需要的資料
 switch($path){
-    case "register";
+    case "register":
       if(isset($_POST['submit']))
       {
         $gump = new GUMP();
@@ -108,7 +108,7 @@ switch($path){
         $smarty->display('view/layout/footer.tpl');
     break;
 
-    case "login";
+    case "login":
       if(isset($_POST['submit']))
       {
         $gump = new GUMP();
@@ -169,7 +169,7 @@ switch($path){
       $smarty->display('view/layout/footer.tpl');
     break;
 
-    case "logout";
+    case "logout":
       unset($_SESSION['avatar']);
       unset($_SESSION['level']);
       unset($_SESSION['id']);
@@ -177,8 +177,7 @@ switch($path){
       header('Location: login');
     break;
 
-    case "home";
-      if(UserVeridator::isLogin(isset($_SESSION['username'])?$_SESSION['username']:'')){
+    case "home":
           //Random show product
           $result4 = Database::get()->execute('SELECT * FROM products ORDER BY RAND() LIMIT 3',array());
           //Get all product type
@@ -186,16 +185,6 @@ switch($path){
           $result6 = Database::get()->execute('SELECT COUNT(*) FROM products',array());
           $smarty->assign('random_prods',$result4);
           $smarty->assign('types',$result5);
-
-          //Get user image save to session
-          $condition = "id = :userid";
-          $order_by = "1";
-          $fields = "*";
-          $limit = "LIMIT 1";
-          $data_array = array(":userid" => $_SESSION['id']);
-          $avatar = Database::get()->query("users", $condition, $order_by, $fields, $limit, $data_array);
-          $filename = $avatar[0]['avatar'];
-          $_SESSION['avatar'] = $filename;
 
           if(isset($_GET['type'])){
               $data_array = array(
@@ -254,21 +243,24 @@ switch($path){
           //Get the product image from table product_images
           // $result2 = Database::get()->execute('SELECT * FROM products LEFT JOIN product_images ON products.id = product_images.product_id',array());
           //Get all table of cart_items
-          $data_array = array(
-              ":userid" => $_SESSION['id']
-          );
-          $result3 = Database::get()->execute('SELECT * FROM cart_items WHERE user_id = :userid',$data_array);
-
           $smarty->assign('products',$result);
-          // $smarty->assign('result_images',$result2);
-          $smarty->assign('shopping_carts',$result3);
 
           $smarty->display('view/layout/header.tpl');
           $smarty->display('view/home.tpl');
           $smarty->display('view/layout/footer.tpl');
         }
+      if(UserVeridator::isLogin(isset($_SESSION['username'])?$_SESSION['username']:'')){
+          //Get user image save to session
+          $condition = "id = :userid";
+          $order_by = "1";
+          $fields = "*";
+          $limit = "LIMIT 1";
+          $data_array = array(":userid" => $_SESSION['id']);
+          $avatar = Database::get()->query("users", $condition, $order_by, $fields, $limit, $data_array);
+          $filename = $avatar[0]['avatar'];
+          $_SESSION['avatar'] = $filename;
       } else{
-        header('Location: logout');
+
       }
     break;
 
@@ -290,7 +282,9 @@ switch($path){
             $orders_num = Database::get()->execute('SELECT COUNT(*) FROM orders',array());
             $order_not_checks = Database::get()->execute('SELECT * FROM orders WHERE status = 0',array());
             $order_checks = Database::get()->execute('SELECT * FROM orders WHERE status = 1',array());
+            $e_coins = Database::get()->execute("SELECT SUM(e_coin) as total FROM users",array());
 
+            $smarty->assign('e_coins',$e_coins);
             $smarty->assign('shopping_carts',$result);
             $smarty->assign('users',$result2);
             // $smarty->assign('products',$result3);
@@ -423,6 +417,7 @@ switch($path){
             $results = Database::get()->execute('SELECT * FROM cart_items WHERE user_id = :userid',$data_array);
 
             $orders = Database::get()->execute('SELECT * FROM orders WHERE user_id = :userid',$data_array);
+            $recharges = Database::get()->execute("SELECT * FROM recharge WHERE user_id = ". $_SESSION['id'],array());
             $data_array = array(
                 ":userid" => $_SESSION['id'],
                 ":status" => '1'
@@ -438,6 +433,7 @@ switch($path){
             $smarty->assign('money',$output['data'][0]['amount']);
             $smarty->assign('shopping_carts',$results);
             $smarty->assign('orders',$orders);
+            $smarty->assign('recharges',$recharges);
             $smarty->assign('order_checks',$order_checks);
             $smarty->assign('order_not_checks',$order_not_checks);
 
@@ -515,7 +511,7 @@ switch($path){
     break;
 
     case "product":
-        if(UserVeridator::isLogin(isset($_SESSION['username'])?$_SESSION['username']:'')){
+        // if(UserVeridator::isLogin(isset($_SESSION['username'])?$_SESSION['username']:'')){
             if(isset($_GET['product_id'])){
                 $product_id = $_GET['product_id'];
                 $data_array = array(':id' => $product_id);
@@ -531,15 +527,14 @@ switch($path){
             $smarty->display('view/layout/header.tpl');
             $smarty->display('view/product.tpl');
             $smarty->display('view/layout/footer.tpl');
-
-        } else{
-          header('Location: logout');
-        }
+        // } else{
+        //   header('Location: logout');
+        // }
     break;
 
     case "add_cart":
-        $date =  date("Y-m-d H:i:s");
-
+        if(UserVeridator::isLogin(isset($_SESSION['username'])?$_SESSION['username']:'')){
+            $date =  date("Y-m-d H:i:s");
             $data_array = array(
                 'image' => $_POST['image'],
                 'product_id' => $_POST['product_id'],
@@ -550,28 +545,26 @@ switch($path){
             );
             Database::get()->insert("cart_items",$data_array);
             header('Location: home');
-
+        } else{
+            header('Location: login');
+        }
     break;
 
     case "search":
-        if(UserVeridator::isLogin(isset($_SESSION['username'])?$_SESSION['username']:'')){
-            if(isset($_POST['search_submit'])){
-                $term = $_POST['seacrh_text'];
-                $sql = "SELECT * FROM products WHERE name LIKE '%".$term."%'";
-                // $sql  = prepare($sql);
-                $query_result = Database::get()->execute($sql,array());
-                // $res = Database::get()->getLastSql();
-                // var_dump($query_result);
-                $smarty->assign('search_text',$term);
-                $smarty->assign('query_results',$query_result);
-                // header('Location: search');
+        if(isset($_POST['search_submit'])){
+            $term = $_POST['seacrh_text'];
+            $sql = "SELECT * FROM products WHERE name LIKE '%".$term."%'";
+            // $sql  = prepare($sql);
+            $query_result = Database::get()->execute($sql,array());
+            // $res = Database::get()->getLastSql();
+            // var_dump($query_result);
+            $smarty->assign('search_text',$term);
+            $smarty->assign('query_results',$query_result);
+            // header('Location: search');
 
-                $smarty->display('view/layout/header.tpl');
-                $smarty->display('view/search.tpl');
-                $smarty->display('view/layout/footer.tpl');
-            }
-        } else{
-          header('Location: logout');
+            $smarty->display('view/layout/header.tpl');
+            $smarty->display('view/search.tpl');
+            $smarty->display('view/layout/footer.tpl');
         }
     break;
 
@@ -716,12 +709,14 @@ switch($path){
             }//For recharge submit
             elseif(isset($_POST['recharge_submit'])){
                 if(isset($_POST['account_id'])){
+                    unset($_SESSION['error_message']);
                     $userVeridator = new UserVeridator();
                     $userVeridator->isAccountExist($_POST['account_id']);
                     $error = $userVeridator->getErrorArray();
                     if (is_array($error) || is_object($error)){
                         foreach($error as $e){
-                            echo $e;
+                            $_SESSION['error_message'] = $e;
+                            header('Location: recharge#recharge');
                         }
                     }
                     if(count($error) ==0){
@@ -746,7 +741,28 @@ switch($path){
                 }
                 //For change money submit
             } elseif(isset($_POST['change_submit'])){
+                if(isset($_POST['account_id'])){
+                    unset($_SESSION['error_message']);
+                    $users = Database::get()->execute("SELECT * FROM users WHERE id = ".$_SESSION['id'],array());
+                    if($_POST['account_id'] != $users[0]['wallet_account']){
+                        $_SESSION['error_message'] = "The typing account is not corrospond to your account.";
+                        header('Location: recharge#change');
+                    } else{
+                        if(isset($_POST['money'])){
+                            $smarty->assign('users',$users);
+                            $smarty->assign('amount_of_money',$_POST['money']);
+                            $smarty->assign('confirm_type','change');
 
+                            $smarty->display('view/layout/header.tpl');
+                            $smarty->display('view/confirm.tpl');
+                            $smarty->display('view/layout/footer.tpl');
+                        }
+                    }
+
+
+                } else {
+                    header('Location: recharge');
+                }
             }else{
                 header('Location: home');
             }
@@ -818,15 +834,18 @@ switch($path){
                 //For
                 $results = Database::get()->execute('SELECT * FROM users WHERE id = '.$_SESSION['id'],array());
                 $url = "http://phili.test/wallet.class.php?action=update_wallet&userid=".$results[0]['wallet_account'] ."&amount=-".$total. "&trans_id=".$trans_id;
+                $url2 = "http://phili.test/wallet.class.php?action=get_wallet&userid=".$results[0]['wallet_account'];
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
                 $output = curl_exec($ch);
+                curl_setopt($ch, CURLOPT_URL, $url2);
+                $output2 = curl_exec($ch);
                 curl_close($ch);
-                $output = json_decode($output,true);
+                $output2 = json_decode($output2,true);
 
                 $data_array = array(
-                    'money' => $output['data'][0]['amount'],
+                    'money' => $output2['data'][0]['amount'],
                     'updated_at' => date("Y-m-d H:i:s")
                 );
                 Database::get()->update("users",$data_array,'id',$_SESSION['id']);
@@ -858,7 +877,6 @@ switch($path){
                 $output2 = curl_exec($ch);
                 curl_close($ch);
                 if (strpos($output, 'true') !== false) {
-                    $output = json_decode($output,true);
                     $data_array = array(
                         'user_id' => $_SESSION['id'],
                         'target_account' => $_SESSION['transfer_target_account'],
@@ -881,8 +899,40 @@ switch($path){
                     $smarty->display('view/transfer.tpl');
                     $smarty->display('view/layout/footer.tpl');
                 } else {
-                    echo "<div class='alert alert-danger'>Fail transfer.</div>";
+                    echo "<div class = 'container'><div class='alert alert-danger '>Fail transfer.<a href='#' class='close' data-dismiss='alert' aria-label='close'>×</a></div></div>";
                 }
+        } elseif(isset($_POST['change'])){
+            $trans_id= mt_rand(100, 999);
+            $money = $_POST['money'];
+            $users = Database::get()->execute('SELECT * FROM users WHERE id = '.$_SESSION['id'],array());
+            $url = "http://phili.test/wallet.class.php?action=update_wallet&userid=".$users[0]['wallet_account'] ."&amount=".$money. "&trans_id=".$trans_id;
+            $url2 = "http://phili.test/wallet.class.php?action=get_wallet&userid=".$users[0]['wallet_account'];
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+            $output = curl_exec($ch);
+            curl_setopt($ch, CURLOPT_URL, $url2);
+            $output2 = curl_exec($ch);
+            curl_close($ch);
+            if (strpos($output, 'true') !== false) {
+                $data_array = array(
+                    'user_id' => $_SESSION['id'],
+                    'target_account' => $users[0]['wallet_account'],
+                    'money' => $money,
+                    'e_coin' => $_POST['e_coin'],
+                    'status' => 1                   // 1 indicate change
+                );
+                //Insert the trade to recharge table
+                Database::get()->insert("recharge",$data_array);
+                $output2 = json_decode($output2,true);
+                Database::get()->execute("UPDATE users SET e_coin = e_coin -".$_POST['e_coin'] .",money = ".$output2['data'][0]['amount']." WHERE id = ".$_SESSION['id'],array());
+
+                $smarty->display('view/layout/header.tpl');
+                $smarty->display('view/transfer.tpl');
+                $smarty->display('view/layout/footer.tpl');
+            } else {
+                echo "<div class = 'container'><div class='alert alert-danger '>Fail transfer.<a href='#' class='close' data-dismiss='alert' aria-label='close'>×</a></div></div>";
+            }
         } else{
             header('Location: home');
         }
@@ -897,10 +947,20 @@ switch($path){
             if(isset($_POST['money'])){
                 $smarty->assign('money',$_POST['money']);
             } else{
-                $results = Database::get()->execute('SELECT * FROM users WHERE id = '.$_SESSION['id'],array());
-                $smarty->assign('money',$results[0]['money']);
+                $users = Database::get()->execute('SELECT * FROM users WHERE id = '.$_SESSION['id'],array());
+                $url = "http://phili.test/wallet.class.php?action=get_wallet&userid=".$users[0]['wallet_account'];
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+                $output = curl_exec($ch);
+                curl_close($ch);
+                $output = json_decode($output,true);
+                $smarty->assign('money',$output['data'][0]['amount']);
             }
-
+            if(isset($_SESSION['error_message'])){
+                echo "<div class = 'container'><div class='alert alert-danger '><strong>".$_SESSION['error_message']."</strong><a href='#' class='close' data-dismiss='alert' aria-label='close'>×</a></div></div>";
+            }
+            unset($_SESSION['error_message']);
             // if(isset($_POST['recharge_submit'])){
             //     if(isset($_POST['account_id'])){
             //         $error = array();

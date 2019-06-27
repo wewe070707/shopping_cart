@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-26 17:11:17
+/* Smarty version 3.1.33, created on 2019-06-27 17:43:20
   from 'C:\xampp\htdocs\shopping_cart\view\profile.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d1336b5c46891_09427094',
+  'unifunc' => 'content_5d148fb8f32277_45487684',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5171ad6f8084894d64ed65525b586eddf27898f5' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\profile.tpl',
-      1 => 1561540276,
+      1 => 1561628600,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d1336b5c46891_09427094 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d148fb8f32277_45487684 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\xampp\\htdocs\\shopping_cart\\libs\\plugins\\modifier.date_format.php','function'=>'smarty_modifier_date_format',),));
 ?>
 <div class = "container" style = "background-image:/uploads/123.png">
@@ -54,7 +54,7 @@ $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\xampp\\htdocs\\shopping_
             </ul>
         </div>
         <div class = "col-lg-2" style="text-align:center;">
-            <i class="fab fa-edge fa-3x" style = "color:#e6c61e;line-height: 100px;vertical-align: middle;"><?php echo sprintf("%.2f",$_smarty_tpl->tpl_vars['users']->value[0]['e_coin']);?>
+            <i class="fas fa-coins fa-3x" style = "color:#e6c61e;line-height: 100px;vertical-align: middle;"><?php echo sprintf("%.2f",$_smarty_tpl->tpl_vars['users']->value[0]['e_coin']);?>
 </i>
             <form action = "recharge" method = "post">
                 <input type = "hidden" name = "money" value = "<?php echo $_smarty_tpl->tpl_vars['money']->value;?>
@@ -65,7 +65,7 @@ $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\xampp\\htdocs\\shopping_
     </div>
     <div class = "row">
         <div class="tab-content">
-            <div id="user" class="tab-pane fade in active">
+            <div id="user" class="tab-pane fade ">
                 <div class="col-md-10" style = "padding:5px">
                     <img src = "/uploads/<?php echo $_smarty_tpl->tpl_vars['avatar']->value;?>
 " style = "width:150px; height:150px; float:left; border-radius:50%; margin-right:25px;">
@@ -131,7 +131,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                         </table>
                     <!-- </div> -->
                     <!-- <div class = "container"> -->
-                        <i class="fas fa-money-bill-alt fa-3x">ToTal price ： <?php echo $_smarty_tpl->tpl_vars['total_price']->value;?>
+                        <i class="fas fa-money-bill-alt fa-3x">ToTal price ： E幣 <?php echo $_smarty_tpl->tpl_vars['total_price']->value;?>
 </i>
                         <form action = "confirm" method = "POST" style="float: right;">
                             <input type = "hidden" name = "total" value = "<?php echo $_smarty_tpl->tpl_vars['total_price']->value;?>
@@ -308,7 +308,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
             </div>
             <div id="wallet" class="tab-pane fade">
                 <div class = "row">
-                    <div class = "col-lg-8" style = "height:100px; display:inline-grid;">
+                    <div class = "col-lg-12" style = "height:100px; display:inline-grid;">
                         <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['users']->value, 'user');
 if ($_from !== null) {
@@ -316,34 +316,68 @@ foreach ($_from as $_smarty_tpl->tpl_vars['user']->value) {
 ?>
                             <i class="fas fa-user fa-2x" style = "">帳戶號碼 ： <?php echo $_smarty_tpl->tpl_vars['user']->value['wallet_account'];?>
 </i>
-                            <i class="fas fa-wallet fa-2x">帳戶餘額 ： $NT <?php echo $_smarty_tpl->tpl_vars['user']->value['money'];?>
+                            <i class="fas fa-wallet fa-2x">帳戶餘額 ： NT$ <?php echo $_smarty_tpl->tpl_vars['user']->value['money'];?>
 </i>
                         <?php
 }
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
-                        <h3><strong>交易紀錄</strong></h3>
                     </div>
                     <div class = "col-lg-12">
-                        <?php
+                        <ul class = "nav nav-tabs">
+                            <li><a data-toggle = "" href = "#shop_record">購買紀錄</a></li>
+                            <li><a data-toggle = "" href = "#recharge_record">儲值、兌換紀錄</a></li>
+                        </ul>
+
+                    </div>
+                    <div class = "tab-content">
+                        <div id = "shop_record" class = "tab-pane fade in active">
+                            <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['orders']->value, 'order', false, 'item');
 if ($_from !== null) {
 foreach ($_from as $_smarty_tpl->tpl_vars['item']->value => $_smarty_tpl->tpl_vars['order']->value) {
 ?>
-                            <button class="collapsible" style="border: 1px solid;">第<?php echo $_smarty_tpl->tpl_vars['item']->value+1;?>
-筆: $NT -<?php echo $_smarty_tpl->tpl_vars['order']->value['money'];?>
+                                <button class="collapsible" style="border: 1px solid;">第<?php echo $_smarty_tpl->tpl_vars['item']->value+1;?>
+筆: NT$ -<?php echo $_smarty_tpl->tpl_vars['order']->value['money']*$_smarty_tpl->tpl_vars['order']->value['quantity'];?>
 </button>
-                            <div class="content">
-                                <strong><span>於<?php echo smarty_modifier_date_format(strtotime($_smarty_tpl->tpl_vars['order']->value['created_at']),"%Y %m %d");?>
+                                <div class="content">
+                                    <strong><span>於<?php echo smarty_modifier_date_format(strtotime($_smarty_tpl->tpl_vars['order']->value['created_at']),"%Y %m %d");?>
  購買 <?php echo $_smarty_tpl->tpl_vars['order']->value['name'];?>
  數量 <?php echo $_smarty_tpl->tpl_vars['order']->value['quantity'];?>
  共 <?php echo $_smarty_tpl->tpl_vars['order']->value['money']*$_smarty_tpl->tpl_vars['order']->value['quantity'];?>
  元</span></strong>
-                            </div>
-                        <?php
+                                </div>
+                            <?php
 }
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                        </div>
+                        <div id = "recharge_record" class = "tab-pane fade">
+                            <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['recharges']->value, 'recharge', false, 'index');
+if ($_from !== null) {
+foreach ($_from as $_smarty_tpl->tpl_vars['index']->value => $_smarty_tpl->tpl_vars['recharge']->value) {
+?>
+                                <div>
+                                    第<?php echo $_smarty_tpl->tpl_vars['index']->value;?>
+筆:
+                                    <?php if ($_smarty_tpl->tpl_vars['recharge']->value['status'] == 0) {?>
+                                        <strong><span>於<?php echo smarty_modifier_date_format(strtotime($_smarty_tpl->tpl_vars['recharge']->value['created_at']),"%Y %m %d");?>
+ 儲值 <?php echo $_smarty_tpl->tpl_vars['recharge']->value['e_coin'];?>
+ E幣 至 帳戶 : <?php echo $_smarty_tpl->tpl_vars['recharge']->value['target_account'];?>
+</span></strong>
+                                    <?php } else { ?>
+                                        <strong><span>於<?php echo smarty_modifier_date_format(strtotime($_smarty_tpl->tpl_vars['recharge']->value['created_at']),"%Y %m %d");?>
+ 花費 <?php echo $_smarty_tpl->tpl_vars['recharge']->value['e_coin'];?>
+ E幣 兌換 NT$ <?php echo $_smarty_tpl->tpl_vars['recharge']->value['money'];?>
+</span></strong>
+                                    <?php }?>
+                                </div>
+                            <?php
+}
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                        </div>
                     </div>
                 </div>
             </div>

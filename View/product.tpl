@@ -12,13 +12,13 @@
                 <div>
                     {if $product['price_before_discount'] != 0}
                         <div class = "col-lg-2">
-                            <h3><STRIKE style="font-size: 20px;">NT${$product['price_before_discount']}</STRIKE></h3>
+                            <h3><STRIKE style="font-size: 20px;"> {$product['price_before_discount']}</STRIKE></h3>
                         </div>
                         <div class = "col-lg-10">
-                            <h3><strong style="color:tomato">NT$ {$product['price']}</strong></h3>
+                            <h3><strong style="color:tomato">E幣 {$product['price']}</strong></h3>
                         </div>
                     {else}
-                        <h3><strong>NT$ {$product['price']}</strong></h3>
+                        <h3><strong>E幣 {$product['price']}</strong></h3>
                     {/if}
                 </div>
                 <div>
@@ -102,7 +102,7 @@
                     <img src = "/uploads/images/{$random_prod['image']}" style = "width:150px;height:150px;" title ="{$random_prod['description']}">
                 </div>
                 <span id = "test" style="">{$random_prod['name']}</span>
-                <h3><strong>NT$ {$random_prod['price']}</strong></h3>
+                <h3><strong>E幣 {$random_prod['price']}</strong></h3>
             </a>
             <form id = "number_form" action="/add_cart" method="post" >
                 <input type = "hidden" name = "image" value = "{$random_prod['image']}">

@@ -5,6 +5,7 @@
                 <li style = "padding-right: inherit;"><a data-toggle="tab" href="#user"><i class="fas fa-user-alt fa-3x" style = "padding-right: inherit;line-height: 150px;vertical-align: middle;"></i>User Management</a></li>
                 <li style = "padding-right: inherit;"><a data-toggle="tab" href="#product"><i class="fas fa-gifts fa-3x" style = "padding-right: inherit;line-height: 150px;vertical-align: middle;"></i>Products</a></li>
                 <li style = "padding-right: inherit;"><a data-toggle="tab" href="#order"><i class="fas fa-truck fa-3x" style = "padding-right: inherit;line-height: 150px;vertical-align: middle;"></i>Orders</a></li>
+                <li style = "padding-right: inherit;"><a data-toggle="tab" href="#e_coin"><i class="fas fa-coins fa-3x" style = "padding-right: inherit;line-height: 150px;vertical-align: middle;"></i>E coin</a></li>
                 <li style = "padding-right: inherit;"><a data-toggle="modal"  data-backdrop="true" data-keyboard="true" data-target="#newProduct"><i class="fas fa-plus fa-3x" style = "padding-right: inherit;line-height: 150px;vertical-align: middle;"></i>新增商品</a></li>
                 <!-- <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown<span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -15,9 +16,6 @@
                 </li> -->
             </ul>
         </div>
-        <!-- <div class = "col-lg-2">
-            <button type="submit" class = "btn btn-primary" style = "float:right;" data-toggle="modal"  data-backdrop="true" data-keyboard="true" data-target="#newProduct">新增商品</button>
-        </div> -->
     </div>
     <div class="tab-content">
         <div id="user" class="tab-pane fade in active">
@@ -31,18 +29,10 @@
                 </tr>
                 {foreach $users as $user}
                     <tr>
-                        <td>
-                            {$user['id']}
-                        </td>
-                        <td>
-                            {$user['username']}
-                        </td>
-                        <td>
-                            {$user['email']}
-                        </td>
-                        <td>
-                            {$user['created_at']}
-                        </td>
+                        <td>{$user['id']}</td>
+                        <td>{$user['username']}</td>
+                        <td>{$user['email']}</td>
+                        <td>{$user['created_at']}</td>
                         <td>
                             <form action = "admin_home" method = "POST">
                                 <input type = "hidden" name = "user_id" value = "{$user['id']}">
@@ -108,19 +98,17 @@
         </div>
         <div id="order" class="tab-pane fade">
             <div class="row">
-
                 <div class = "col-lg-10">
                     <ul class="nav nav-tabs " style = "display:inline-block;border-bottom: none;">
                         <li style = "padding-right: inherit;"><a data-toggle="tab" href="#order#all">全部</a></li>
                         <li style = "padding-right: inherit;"><a data-toggle="tab" href="#order#unprocessed">未處理</a></li>
                         <li style = "padding-right: inherit;"><a data-toggle="tab" href="#order#processed">已送出</a></li>
-
                     </ul>
                 </div>
-                    <div class = "col-lg-2">
-                        <form action = "admin_home" method = "post">
-                            <button type = "submit" id = "status_submit" name = "status_submit" class = "btn btn-primary">送出</button>
-                    </div>
+                <div class = "col-lg-2">
+                    <form action = "admin_home" method = "post">
+                    <button type = "submit" id = "status_submit" name = "status_submit" class = "btn btn-primary">送出</button>
+                </div>
             </div>
             <div class="tab-content">
                 <!--  All order table -->
@@ -225,6 +213,12 @@
                         {/foreach}
                     </table>
                 </div>
+            </div>
+        </div>
+        <div id = "e_coin" class = "tab-pane fade">
+            <div>
+                <h3>全部E幣: {$e_coins[0]['total']}</h3>
+
             </div>
         </div>
     </div>
