@@ -1,0 +1,22 @@
+{
+    "name": "simon/shopping_cart",
+    "authors": [
+        {
+            "name": "Simon Chen",
+            "email": "simon_chen@mail.chungyo.net"
+        }
+    ],
+    "require": {
+        "wixel/gump": "dev-master",
+        "monolog/monolog": "^1.24",
+        "plasticbrain/php-flash-messages": "^1.0"
+    },
+    "autoload":{
+        "classmap":[
+            "librarys",
+            "validators",
+            "config",
+            "libs"
+        ]
+    }
+}
