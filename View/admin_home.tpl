@@ -52,6 +52,7 @@
                     <td style = "width:150px;">名稱</td>
                     <td style="vertical-align: middle;">數量</td>
                     <td>價格</td>
+                    <td>特價</td>
                     <td>敘述</td>
                     <td></td>
                 </tr>
@@ -61,10 +62,20 @@
                         <td>{$product['type']|strip_tags}</td>
                         <td>{$product['name']|strip_tags}</td>
                         <td>{$product['stock']|strip_tags}</td>
-                        <td>{$product['price']|strip_tags}</td>
+                        {if $product['price_before_discount'] eq 0}
+                            <td>{$product['price']|strip_tags}</td>
+                        {else}
+                            <td>{$product['price_before_discount']|strip_tags}</td>
+                        {/if}
+                        {if $product['price_before_discount'] != 0}
+                            <td>{$product['price']|strip_tags}</td>
+                        {else}
+                            <td>無</td>
+                        {/if}
                         <td>{$product['description']|strip_tags}</td>
                         <td style = "vertical-align: middle;">
                             <form action = "admin_home" method = "post">
+                                <!-- <input name = "edit" class = "btn btn-primary" type = "submit" value = '編輯' > -->
                                 <input name = "edit" class = "btn btn-primary" type = "submit" value = '編輯' >
                                 <input name = "product_id" type = "hidden" value = "{$product['id']}">
                             </form>
@@ -216,8 +227,8 @@
             </div>
         </div>
         <div id = "e_coin" class = "tab-pane fade">
-            <div>
-                <h3>全部E幣: {$e_coins[0]['total']}</h3>
+            <div style="text-align:center;">
+                <h3>平台全部E幣: {$e_coins[0]['total']}</h3>
 
             </div>
         </div>

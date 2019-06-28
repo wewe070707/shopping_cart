@@ -104,7 +104,7 @@
                                     <i class="fas fa-cash-register fa" style = "padding-right:1em; color:white"></i>金額不足
                                 </button>
                                 {elseif $user['money']>=$total_price}
-                                    <input type = "hidden" name = "wallet" value = "{$user['money']}">
+                                    <input type = "hidden" name = "e_coin" value = "{$user['e_coin']}">
                                     <button type = "submit" class = "btn btn-primary" name = "total_confirm" onclick = "return confirm('前往結帳?')">
                                         <i class="fas fa-cash-register fa" style = "padding-right:1em; color:white"></i>全部結帳去
                                     </button>

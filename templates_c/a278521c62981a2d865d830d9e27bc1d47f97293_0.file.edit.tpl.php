@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-25 14:37:36
+/* Smarty version 3.1.33, created on 2019-06-28 17:18:56
   from 'C:\xampp\htdocs\shopping_cart\view\edit.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d11c13003ebc3_67892578',
+  'unifunc' => 'content_5d15db80f0bfb0_86008345',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'a278521c62981a2d865d830d9e27bc1d47f97293' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\edit.tpl',
-      1 => 1561444655,
+      1 => 1561713534,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d11c13003ebc3_67892578 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d15db80f0bfb0_86008345 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div class = "container">
     <div class = "row">
         <?php
@@ -53,12 +53,16 @@ foreach ($_from as $_smarty_tpl->tpl_vars['product']->value) {
                 </div>
                 <div class="form-group">
                     <div style="display:flex;">
-                        <label for="inputContent" class="col-sm-2 control-label">Quantity</label>
-                        <input type = "number" name="quantity" class="form-control" min = "0" value = "<?php echo $_smarty_tpl->tpl_vars['product']->value['quantity'];?>
+                        <label for="inputContent" class="col-sm-2 control-label">Stock</label>
+                        <input type = "number" name="quantity" class="form-control" min = "0" value = "<?php echo $_smarty_tpl->tpl_vars['product']->value['stock'];?>
 ">
+                        <label for="inputContent" class="col-sm-2 control-label">Sale</label>
+                        <input type="checkbox" id = "sale" class = "" name = "sale">
                         <label for="inputContent" class="col-sm-2 control-label">Price</label>
-                        <input type = "number" name="price" class="form-control" min = "0" value = "<?php echo $_smarty_tpl->tpl_vars['product']->value['price'];?>
+                        <input type = "number" id = "price" name="price" class="form-control" min = "0" value = "<?php echo $_smarty_tpl->tpl_vars['product']->value['price'];?>
 ">
+                        <input type = "number" id = "sale_price" name="sale_price" class="form-control" max = "<?php echo sprintf('%.2f',$_smarty_tpl->tpl_vars['product']->value['price']);?>
+" style="display:none;">
                     </div>
                 </div>
                 <div class="form-group">

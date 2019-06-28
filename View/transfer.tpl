@@ -10,6 +10,6 @@
     </div>
 </div>
 <script>
-var delay = 3000;
-setTimeout(function(){ window.location = 'profile#wallet'; }, delay);
+    var delay = 3000;
+    setTimeout(function(){ window.location = 'profile#wallet'; }, delay);
 </script>

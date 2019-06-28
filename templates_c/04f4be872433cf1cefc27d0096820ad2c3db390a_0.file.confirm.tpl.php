@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-27 14:50:03
+/* Smarty version 3.1.33, created on 2019-06-28 10:07:28
   from 'C:\xampp\htdocs\shopping_cart\view\confirm.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d14671b225d28_60930690',
+  'unifunc' => 'content_5d1576609c8816_76179541',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '04f4be872433cf1cefc27d0096820ad2c3db390a' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\confirm.tpl',
-      1 => 1561618202,
+      1 => 1561687589,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d14671b225d28_60930690 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d1576609c8816_76179541 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div class = "container" style="background:white">
     <div class = "row">
         <div class = 'col-lg-12'>

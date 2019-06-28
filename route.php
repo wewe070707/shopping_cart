@@ -15,6 +15,9 @@ date_default_timezone_set('Asia/Taipei');
 // 用參數決定載入某頁並讀取需要的資料
 switch($path){
     case "register":
+    if(UserVeridator::isLogin(isset($_SESSION['username'])?$_SESSION['username']:'')){
+        header('Location: home');
+    }
       if(isset($_POST['submit']))
       {
         $gump = new GUMP();
@@ -84,12 +87,14 @@ switch($path){
             Database::get()->insert("users", $data_array);
             $user_id = Database::get()->getLastId();
 
-            $url = "http://phili.test/wallet.class.php?action=insert_wallet&userid=" . $uniqueId;
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
-            $output = curl_exec($ch);
-            curl_close($ch);
+            $wallet = new Wallet();
+            $wallet->createWallet($uniqueId);
+            // $url = "http://phili.test/wallet.class.php?action=insert_wallet&userid=" . $uniqueId;
+            // $ch = curl_init();
+            // curl_setopt($ch, CURLOPT_URL, $url);
+            // curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+            // $output = curl_exec($ch);
+            // curl_close($ch);
 
             $_SESSION['level'] = 'user';
             $_SESSION['id'] = $user_id;
@@ -109,6 +114,9 @@ switch($path){
     break;
 
     case "login":
+      if(UserVeridator::isLogin(isset($_SESSION['username'])?$_SESSION['username']:'')){
+          header('Location: home');
+      }
       if(isset($_POST['submit']))
       {
         $gump = new GUMP();
@@ -164,17 +172,17 @@ switch($path){
         }
       }
 
-      $smarty->display('view/layout/header.tpl');
-      $smarty->display("view/login.tpl");
-      $smarty->display('view/layout/footer.tpl');
+        $smarty->display('view/layout/header.tpl');
+        $smarty->display("view/login.tpl");
+        $smarty->display('view/layout/footer.tpl');
     break;
 
     case "logout":
-      unset($_SESSION['avatar']);
-      unset($_SESSION['level']);
-      unset($_SESSION['id']);
-      unset($_SESSION['username']);
-      header('Location: login');
+        unset($_SESSION['avatar']);
+        unset($_SESSION['level']);
+        unset($_SESSION['id']);
+        unset($_SESSION['username']);
+        header('Location: login');
     break;
 
     case "home":
@@ -212,44 +220,39 @@ switch($path){
               );
               $smarty->assign('flag','1');
               $smarty->assign('page',$page_result);
-
               $smarty->assign('products',$result);
               $smarty->assign('select_type',$_GET['type']);
-              $smarty->display('view/layout/header.tpl');
-              $smarty->display('view/home.tpl');
-              $smarty->display('view/layout/footer.tpl');
           } else{
-          //For pagenation
-          $data_nums = $result6[0][0];
-          $per = 18;
-          $pages  = ceil($data_nums/$per);;
+              //For pagenation
+              $data_nums = $result6[0][0];
+              $per = 18;
+              $pages  = ceil($data_nums/$per);;
 
-          if(!isset($_GET['page'])){
-              $page=1;
-          } else {
-              $page = intval($_GET["page"]);
-          }
-          $start = ($page-1)*$per;
-          $sql = "select * from products limit ".$start.",". $per;
-          $result = Database::get()->execute($sql, array());
-          $page_result = array(
-              'data_nums' => $data_nums,
-              'page' => $page,
-              'pages' => $pages
-          );
-          $smarty->assign('page',$page_result);
-          //Get all product form database
-          // $result = Database::get()->execute('SELECT * FROM products', array());
-          //Get the product image from table product_images
-          // $result2 = Database::get()->execute('SELECT * FROM products LEFT JOIN product_images ON products.id = product_images.product_id',array());
-          //Get all table of cart_items
-          $smarty->assign('products',$result);
-
-          $smarty->display('view/layout/header.tpl');
-          $smarty->display('view/home.tpl');
-          $smarty->display('view/layout/footer.tpl');
+              if(!isset($_GET['page'])){
+                  $page=1;
+              } else {
+                  $page = intval($_GET["page"]);
+              }
+              $start = ($page-1)*$per;
+              $sql = "select * from products limit ".$start.",". $per;
+              $result = Database::get()->execute($sql, array());
+              $page_result = array(
+                  'data_nums' => $data_nums,
+                  'page' => $page,
+                  'pages' => $pages
+              );
+              $smarty->assign('page',$page_result);
+              //Get all product form database
+              // $result = Database::get()->execute('SELECT * FROM products', array());
+              //Get the product image from table product_images
+              // $result2 = Database::get()->execute('SELECT * FROM products LEFT JOIN product_images ON products.id = product_images.product_id',array());
+              //Get all table of cart_items
+              $smarty->assign('products',$result);
         }
       if(UserVeridator::isLogin(isset($_SESSION['username'])?$_SESSION['username']:'')){
+          $user_carts = Database::get()->execute("SELECT * FROM cart_items WHERE user_id = ". $_SESSION['id'],array());
+          $smarty->assign('user_carts',$user_carts);
+          // $smarty->display('view/home.tpl');
           //Get user image save to session
           $condition = "id = :userid";
           $order_by = "1";
@@ -259,15 +262,20 @@ switch($path){
           $avatar = Database::get()->query("users", $condition, $order_by, $fields, $limit, $data_array);
           $filename = $avatar[0]['avatar'];
           $_SESSION['avatar'] = $filename;
-      } else{
 
+          $smarty->display('view/layout/header.tpl');
+          $smarty->display('view/home.tpl');
+          $smarty->display('view/layout/footer.tpl');
+      } else{
+          $smarty->display('view/layout/header.tpl');
+          $smarty->display('view/home.tpl');
+          $smarty->display('view/layout/footer.tpl');
       }
     break;
 
     case "admin_home":
         if(UserVeridator::isLogin(isset($_SESSION['username'])?$_SESSION['username']:'')){
             if(UserVeridator::isAdmin($_SESSION['level'])){
-
             //Get all cart_items
             $result = Database::get()->execute('SELECT * FROM cart_items',array());
             //Get all users
@@ -511,25 +519,25 @@ switch($path){
     break;
 
     case "product":
-        // if(UserVeridator::isLogin(isset($_SESSION['username'])?$_SESSION['username']:'')){
-            if(isset($_GET['product_id'])){
-                $product_id = $_GET['product_id'];
-                $data_array = array(':id' => $product_id);
-                $product = Database::get()->execute('SELECT * FROM products WHERE id = :id',$data_array);
-                $random_prods = Database::get()->execute("SELECT * FROM products WHERE type = '". $product[0]['type'] ."' ORDER BY RAND() LIMIT 5",array());
-                $product_imgs = Database::get()->execute("SELECT * FROM product_images WHERE product_id = :id",$data_array);
-                if(count($product_imgs) !== 0){
-                    $smarty->assign('product_imgs',$product_imgs);
-                }
-                $smarty->assign('random_prods',$random_prods);
-                $smarty->assign('products',$product);
+        if(isset($_GET['product_id'])){
+            $product_id = $_GET['product_id'];
+            $data_array = array(':id' => $product_id);
+            $product = Database::get()->execute('SELECT * FROM products WHERE id = :id',$data_array);
+            $random_prods = Database::get()->execute("SELECT * FROM products WHERE type = '". $product[0]['type'] ."' ORDER BY RAND() LIMIT 5",array());
+            $product_imgs = Database::get()->execute("SELECT * FROM product_images WHERE product_id = :id",$data_array);
+            if(UserVeridator::isLogin(isset($_SESSION['username'])?$_SESSION['username']:'')){
+                $user_carts = Database::get()->execute("SELECT * FROM cart_items WHERE user_id = ".$_SESSION['id'],array());
+                $smarty->assign('user_carts',$user_carts);
             }
-            $smarty->display('view/layout/header.tpl');
-            $smarty->display('view/product.tpl');
-            $smarty->display('view/layout/footer.tpl');
-        // } else{
-        //   header('Location: logout');
-        // }
+            if(count($product_imgs) !== 0){
+                $smarty->assign('product_imgs',$product_imgs);
+            }
+            $smarty->assign('random_prods',$random_prods);
+            $smarty->assign('products',$product);
+        }
+        $smarty->display('view/layout/header.tpl');
+        $smarty->display('view/product.tpl');
+        $smarty->display('view/layout/footer.tpl');
     break;
 
     case "add_cart":
@@ -544,9 +552,10 @@ switch($path){
                 'user_id' => $_SESSION['id']
             );
             Database::get()->insert("cart_items",$data_array);
-            header('Location: home');
+            echo json_encode(array('msg' => 'success'));
         } else{
-            header('Location: login');
+            echo json_encode(array('msg' => 'fail login'));
+            // header('Location: login');
         }
     break;
 
@@ -571,32 +580,33 @@ switch($path){
     case "edit":
         if(UserVeridator::isLogin(isset($_SESSION['username'])?$_SESSION['username']:'')){
             if(UserVeridator::isAdmin($_SESSION['level'])){
-            $condition = "id = :id";
-            $order_by = "1";
-            $fields = "*";
-            $limit = "LIMIT 1";
-            $data_array = array(":id" => $_SESSION['edit_id']);
-            $result = Database::get()->query("products", $condition, $order_by, $fields, $limit, $data_array);
-            $smarty->assign('products',$result);
-            //For product edit
-            if(isset($_POST['submit'])){
-                try{
-                    $date =  date("Y-m-d H:i:s");
-                    $data_array = array(
-                        'type' => $_POST['type'],
-                        'name' => $_POST['name'],
-                        'stock' => $_POST['quantity'],
-                        'description' => $_POST['description'],
-                        'price' => $_POST['price'],
-                        'updated_at' => $date
-                    );
-                    Database::get()->update("products",$data_array,"id",$_SESSION['edit_id']);
-                    unset($_SESSION['edit_id']);
-                    header('Location: admin_home#product');
-                } catch(PDOException $e) {
-                    $error[] = $e->getMessage();
+                $condition = "id = :id";
+                $order_by = "1";
+                $fields = "*";
+                $limit = "LIMIT 1";
+                $data_array = array(":id" => $_SESSION['edit_id']);
+                $result = Database::get()->query("products", $condition, $order_by, $fields, $limit, $data_array);
+                $smarty->assign('products',$result);
+                //For product edit
+                if(isset($_POST['submit'])){
+                    try{
+                        $date =  date("Y-m-d H:i:s");
+                        $data_array = array(
+                            'type' => $_POST['type'],
+                            'name' => $_POST['name'],
+                            'stock' => $_POST['quantity'],
+                            'description' => $_POST['description'],
+                            'price_before_discount' =>$_POST['price'],
+                            'price' => $_POST['sale_price'],
+                            'updated_at' => $date
+                        );
+                        Database::get()->update("products",$data_array,"id",$_SESSION['edit_id']);
+                        unset($_SESSION['edit_id']);
+                        header('Location: admin_home#product');
+                    } catch(PDOException $e) {
+                        $error[] = $e->getMessage();
+                    }
                 }
-            }
             //For upload product image
             if(isset($_POST['submit_image'])){
                 try{
@@ -673,9 +683,9 @@ switch($path){
             //For submit from shopping cart
             if(isset($_POST['total_confirm'])){
                 $total = $_POST['total'];
-                $wallet = $_POST['wallet'];
+                $e_coin = $_POST['e_coin'];
                 $carts = Database::get()->execute('SELECT * FROM cart_items WHERE user_id = '.$_SESSION['id'],array());
-                $smarty->assign('wallet',$wallet);
+                $smarty->assign('wallet',$e_coin);
                 $smarty->assign('shopping_carts',$carts);
                 $smarty->assign('total',$total);
                 $smarty->assign('confirm_type','shopping');
@@ -688,7 +698,7 @@ switch($path){
                 $direct = $_POST['direct'];
                 // $price = $_POST['price'];
                 $result = Database::get()->execute("SELECT * FROM users WHERE id =". $_SESSION['id'],array());
-                $wallet = $result[0]['money'];
+                $wallet = $result[0]['e_coin'];
                 $carts = array(array(
                     'id' => $_POST['product_id'],
                     'image' => $_POST['image'],
@@ -805,52 +815,7 @@ switch($path){
 
                         }
                     }
-                $trans_id = Database::get()->getLastId();
-                $url = "http://phili.test/wallet.class.php?action=update_wallet&userid=123456&amount=".$total. "&trans_id=".$trans_id;
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
-                $output = curl_exec($ch);
-
-                //For update admin (123456)'s money
-                $url = "http://phili.test/wallet.class.php?action=get_wallet&userid=123456";
-                curl_setopt($ch, CURLOPT_URL, $url);
-                $output2 = curl_exec($ch);
-                $output2 = json_decode($output2,true);
-
-                $data_array = array(
-                    'money' => $output2['data'][0]['amount'],
-                    'updated_at' => date("Y-m-d H:i:s")
-                );
-                Database::get()->update("users",$data_array,'wallet_account','123456');
-
-                curl_close($ch);
-
-                if (strpos($output, 'true') !== false) {
-
-                } else {
-                    echo "<div class='alert alert-danger'>Fail transfer.</div>";
-                }
-                //For
-                $results = Database::get()->execute('SELECT * FROM users WHERE id = '.$_SESSION['id'],array());
-                $url = "http://phili.test/wallet.class.php?action=update_wallet&userid=".$results[0]['wallet_account'] ."&amount=-".$total. "&trans_id=".$trans_id;
-                $url2 = "http://phili.test/wallet.class.php?action=get_wallet&userid=".$results[0]['wallet_account'];
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
-                $output = curl_exec($ch);
-                curl_setopt($ch, CURLOPT_URL, $url2);
-                $output2 = curl_exec($ch);
-                curl_close($ch);
-                $output2 = json_decode($output2,true);
-
-                $data_array = array(
-                    'money' => $output2['data'][0]['amount'],
-                    'updated_at' => date("Y-m-d H:i:s")
-                );
-                Database::get()->update("users",$data_array,'id',$_SESSION['id']);
-
-
+                Database::get()->execute("UPDATE users SET e_coin = e_coin - ". $total . " WHERE id = " . $_SESSION['id'],array());
                 if(isset($_POST['direct'])){
                 } else{
                     Database::get()->execute('DELETE FROM cart_items WHERE user_id = '.$_SESSION['id'],array());
@@ -933,10 +898,9 @@ switch($path){
             } else {
                 echo "<div class = 'container'><div class='alert alert-danger '>Fail transfer.<a href='#' class='close' data-dismiss='alert' aria-label='close'>×</a></div></div>";
             }
-        } else{
+        }   else{
             header('Location: home');
         }
-
         } else{
             header('Location: logout');
         }
@@ -1002,15 +966,15 @@ switch($path){
 
     case "test":
         if(isset($_POST['ajax'])){
-            // $data_array = array(
-            //     'image' => $_POST['image'],
-            //     'product_id' => $_POST['product_id'],
-            //     'quantity' => $_POST['quantity'],
-            //     'price' => $_POST['price'],
-            //     'name' => $_POST['name'],
-            //     'user_id' => $_SESSION['id']
-            // );
-            // Database::get()->insert("cart_items",$data_array);
+            $data_array = array(
+                'image' => $_POST['image'],
+                'product_id' => $_POST['product_id'],
+                'quantity' => $_POST['quantity'],
+                'price' => $_POST['price'],
+                'name' => $_POST['name'],
+                'user_id' => $_SESSION['id']
+            );
+            Database::get()->insert("cart_items",$data_array);
         }
         $smarty->display('view/layout/header.tpl');
         // $smarty->display('test.tpl');

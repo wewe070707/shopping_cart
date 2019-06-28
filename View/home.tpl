@@ -1,5 +1,4 @@
 <div class = "container-fluid" style="text-align: center;">
-
     <form class = "form-inline my-2 my-lg-0" action = "search" method = "POST" style = "float:right;">
         <input name = "seacrh_text" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         <button name = "search_submit"  class = "btn btn-outline-success my-2 my-sm-0" type = "submit" >
@@ -26,12 +25,6 @@
                 </li>
             </ul>
         </div>
-
-
-<!-- {foreach $shopping_carts as $res2}
-    <pre>{print_r($res2)}</pre>
-{/foreach} -->
-
     </nav>
     {if isset($select_type)}
         <h3 style  ="text-align:center;margin-right: 15em;">以下為 <strong>{$select_type}</strong> 的商品</h3>
@@ -60,31 +53,40 @@
                         {else}
                             <h3><strong>E幣 {$product['price']}</strong></h3>
                         {/if}
-
-                    </a>
-                    <form id = "number_form" action="/add_cart" method="post" >
-                        <input type = "hidden" name = "image" value = "{$product['image']}">
-                        <input type = "hidden" name = "product_id" value = "{$product['id']}">
-                        <input type = "hidden" name = "price" value = "{$product['price']}">
-                        <input type = "hidden" name = "name" value = "{$product['name']}">
-                        <input type = "number" id = "quantity" name = "quantity" list = "defaultNumbers" style = "width:70px" min = 1 max = "{$product['stock']}" placeholder="1" value = "1">
-                        <datalist id="defaultNumbers">
-                            <option value="1">
-                            <option value="2">
-                            <option value="3">
-                            <option value="4">
-                            <option value="5">
-                            <option value="6">
-                            <option value="7">
-                            <option value="8">
-                            <option value="9">
-                        </datalist>
-                        <!-- <input type="submit" id = "btn-add-cart" class = "btn btn-primary" value = "加入購物車"> -->
-                        <button type = "submit" id = "btn-add-cart" class = "btn btn-primary">
+                </a>
+                    <input type = "hidden" id = "image" name = "image" value = "{$product['image']}">
+                    <input type = "hidden" id = "product_id" name = "product_id" value = "{$product['id']}">
+                    <input type = "hidden" id = "price" name = "price" value = "{$product['price']}">
+                    <input type = "hidden" id = "name" name = "name" value = "{$product['name']}">
+                    <input type = "number" id = "quantity" name = "quantity" list = "defaultNumbers" style = "width:70px" min = 1 max = "{$product['stock']}" placeholder="1" value = "1">
+                    <datalist id="defaultNumbers">
+                        <option value="1">
+                        <option value="2">
+                        <option value="3">
+                        <option value="4">
+                        <option value="5">
+                        <option value="6">
+                        <option value="7">
+                        <option value="8">
+                        <option value="9">
+                    </datalist>
+                    {$temp = 0}
+                    {if isset($user_carts)}
+                        {foreach $user_carts as $user_cart}
+                            {if in_array($product['id'],$user_cart)}
+                                {$temp = $temp + 1}
+                                <button type = "submit" class = "btn btn-add-cart btn-primary" disabled>
+                                    <i class="fas fa-cart-plus fa" style = "padding-right:1em;"></i>已在購物車
+                                </button>
+                                {break}
+                            {/if}
+                        {/foreach}
+                    {/if}
+                    {if $temp eq 0}
+                        <button type = "submit" class = "btn btn-add-cart btn-primary">
                             <i class="fas fa-cart-plus fa" style = "padding-right:1em;"></i>加入購物車
                         </button>
-                    </form>
-
+                    {/if}
                 </div>
             {/foreach}
         </div>
@@ -92,25 +94,38 @@
 
             <h3>Random Product</h3>
             {foreach $random_prods as $index => $random_prod}
-                <a href = "product?product_id={$random_prod['id']}" style = "color: inherit;text-decoration: none;" >
-                    <div>
-                        <img src = "/uploads/images/{$random_prod['image']}" style = "width:150px;height:150px;" title ="{$random_prod['description']}">
-                    </div>
-                    <span id = "test" style="line-height: 40px;">{$random_prod['name']}</span>
-                    <h3><strong>E幣 {$random_prod['price']}</strong></h3>
-                    <form id = "number_form" action="/add_cart" method="post" >
-                        <input type = "hidden" name = "image" value = "{$random_prod['image']}">
-                        <input type = "hidden" name = "product_id" value = "{$random_prod['id']}">
-                        <input type = "hidden" name = "price" value = "{$random_prod['price']}">
-                        <input type = "hidden" name = "name" value = "{$random_prod['name']}">
-                        <input type = "number" id = "quantity" name = "quantity" list = "defaultNumbers" style = "width:70px" min = 1 max = "{$random_prod['stock']}" placeholder="1" value = "1">
-                        <!-- <input type="submit" id = "btn-add-cart" class = "btn btn-primary" value = "加入購物車"> -->
-                        <button type = "submit" id = "btn-add-cart" class = "btn btn-primary">
+                <div>
+                    <a href = "product?product_id={$random_prod['id']}" style = "color: inherit;text-decoration: none;" >
+                        <div>
+                            <img src = "/uploads/images/{$random_prod['image']}" style = "width:150px;height:150px;" title ="{$random_prod['description']}">
+                        </div>
+                        <span id = "test" style="line-height: 40px;">{$random_prod['name']}</span>
+                        <h3><strong>E幣 {$random_prod['price']}</strong></h3>
+                    </a>
+                    <input type = "hidden" id = "image" name = "image" value = "{$random_prod['image']}">
+                    <input type = "hidden" id = "product_id" name = "product_id" value = "{$random_prod['id']}">
+                    <input type = "hidden" id = "price" name = "price" value = "{$random_prod['price']}">
+                    <input type = "hidden" id = "name" name = "name" value = "{$random_prod['name']}">
+                    <input type = "number" id = "quantity" name = "quantity" list = "defaultNumbers" style = "width:70px" min = 1 max = "{$random_prod['stock']}" placeholder="1" value = "1">
+                    {$temp = 0}
+                    {if isset($user_carts)}
+                        {foreach $user_carts as $user_cart}
+                            {if in_array($random_prod['id'],$user_cart)}
+                                {$temp = $temp + 1}
+                                <button type = "submit" class = "btn btn-add-cart btn-primary" disabled>
+                                    <i class="fas fa-cart-plus fa" style = "padding-right:1em;"></i>已在購物車
+                                </button>
+                                {break}
+                            {/if}
+                        {/foreach}
+                    {/if}
+                    {if $temp eq 0}
+                        <button type = "submit" class = "btn btn-add-cart btn-primary">
                             <i class="fas fa-cart-plus fa" style = "padding-right:1em;"></i>加入購物車
                         </button>
-                    </form>
+                    {/if}
                     <br>
-                </a>
+                </div>
             {/foreach}
         </div>
     </div>

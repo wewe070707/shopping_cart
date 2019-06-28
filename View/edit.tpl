@@ -23,10 +23,13 @@
                 </div>
                 <div class="form-group">
                     <div style="display:flex;">
-                        <label for="inputContent" class="col-sm-2 control-label">Quantity</label>
-                        <input type = "number" name="quantity" class="form-control" min = "0" value = "{$product['quantity']}">
+                        <label for="inputContent" class="col-sm-2 control-label">Stock</label>
+                        <input type = "number" name="quantity" class="form-control" min = "0" value = "{$product['stock']}">
+                        <label for="inputContent" class="col-sm-2 control-label">Sale</label>
+                        <input type="checkbox" id = "sale" class = "" name = "sale">
                         <label for="inputContent" class="col-sm-2 control-label">Price</label>
-                        <input type = "number" name="price" class="form-control" min = "0" value = "{$product['price']}">
+                        <input type = "number" id = "price" name="price" class="form-control" min = "0" value = "{$product['price']}">
+                        <input type = "number" id = "sale_price" name="sale_price" class="form-control" max = "{$product['price']|string_format:'%.2f'}" style="display:none;">
                     </div>
                 </div>
                 <div class="form-group">

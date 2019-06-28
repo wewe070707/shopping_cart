@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-27 17:20:52
+/* Smarty version 3.1.33, created on 2019-06-28 16:30:57
   from 'C:\xampp\htdocs\shopping_cart\view\product.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d148a74129201_26804624',
+  'unifunc' => 'content_5d15d041ca1c99_08421299',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '561475a951211867809d4c145f037a3d5ceb4219' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\product.tpl',
-      1 => 1561627249,
+      1 => 1561710656,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d148a74129201_26804624 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d15d041ca1c99_08421299 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div class = "container">
     <div class = "row" style="background:white;">
         <?php
@@ -61,33 +61,51 @@ foreach ($_from as $_smarty_tpl->tpl_vars['product']->value) {
                 <br>
                 <div class = "form-inline">
                     <div class = "form-group mb-2">
-                        <form id = "number_form" action="/add_cart" method="post" >
-                            <input type = "hidden" name = "image" value = "<?php echo $_smarty_tpl->tpl_vars['product']->value['image'];?>
+                        <input type = "hidden" id = "image" name = "image" value = "<?php echo $_smarty_tpl->tpl_vars['product']->value['image'];?>
 ">
-                            <input type = "hidden" name = "product_id" value = "<?php echo $_smarty_tpl->tpl_vars['product']->value['id'];?>
+                        <input type = "hidden" id = "product_id" name = "product_id" value = "<?php echo $_smarty_tpl->tpl_vars['product']->value['id'];?>
 ">
-                            <input type = "hidden" name = "price" value = "<?php echo $_smarty_tpl->tpl_vars['product']->value['price'];?>
+                        <input type = "hidden" id = "price" name = "price" value = "<?php echo $_smarty_tpl->tpl_vars['product']->value['price'];?>
 ">
-                            <input type = "hidden" name = "name" value = "<?php echo $_smarty_tpl->tpl_vars['product']->value['name'];?>
+                        <input type = "hidden" id = "name" name = "name" value = "<?php echo $_smarty_tpl->tpl_vars['product']->value['name'];?>
 ">
-                            <input type = "number" id = "quantity" name = "quantity" list = "defaultNumbers" style = "width:70px" min = 1 max = "<?php echo $_smarty_tpl->tpl_vars['product']->value['stock'];?>
+                        <input type = "number" id = "quantity" name = "quantity" list = "defaultNumbers" style = "width:70px" min = 1 max = "<?php echo $_smarty_tpl->tpl_vars['product']->value['stock'];?>
 " placeholder="1" value = "1">
-                            <datalist id="defaultNumbers">
-                                <option value="1">
-                                <option value="2">
-                                <option value="3">
-                                <option value="4">
-                                <option value="5">
-                                <option value="6">
-                                <option value="7">
-                                <option value="8">
-                                <option value="9">
-                            </datalist>
-                            <button type = "submit" id = "btn-add-cart" class = "btn btn-primary btn-lg">
+                        <datalist id="defaultNumbers">
+                            <option value="1">
+                            <option value="2">
+                            <option value="3">
+                            <option value="4">
+                            <option value="5">
+                            <option value="6">
+                            <option value="7">
+                            <option value="8">
+                            <option value="9">
+                        </datalist>
+                        <?php $_smarty_tpl->_assignInScope('temp', 0);?>
+                        <?php if (isset($_smarty_tpl->tpl_vars['user_carts']->value)) {?>
+                            <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['user_carts']->value, 'user_cart');
+if ($_from !== null) {
+foreach ($_from as $_smarty_tpl->tpl_vars['user_cart']->value) {
+?>
+                                <?php if (in_array($_smarty_tpl->tpl_vars['product']->value['id'],$_smarty_tpl->tpl_vars['user_cart']->value)) {?>
+                                    <?php $_smarty_tpl->_assignInScope('temp', $_smarty_tpl->tpl_vars['temp']->value+1);?>
+                                    <button type = "submit" class = "btn btn-add-cart btn-primary" disabled>
+                                        <i class="fas fa-cart-plus fa" style = "padding-right:1em;"></i>已在購物車
+                                    </button>
+                                    <?php break 1;?>
+                                <?php }?>
+                            <?php
+}
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                        <?php }?>
+                        <?php if ($_smarty_tpl->tpl_vars['temp']->value == 0) {?>
+                            <button type = "submit" class = "btn btn-add-cart btn-primary">
                                 <i class="fas fa-cart-plus fa" style = "padding-right:1em;"></i>加入購物車
                             </button>
-                            <!-- <input type="submit" id = "btn-add-cart" class = "btn btn-primary btn-lg" value = "加入購物車"> -->
-                        </form>
+                        <?php }?>
                     </div>
                     <div class = "form-group mb-2 pull-right">
                         <form action = "confirm" method = "POST" style="float: right;">
@@ -166,19 +184,40 @@ foreach ($_from as $_smarty_tpl->tpl_vars['random_prod']->value) {
                 <h3><strong>E幣 <?php echo $_smarty_tpl->tpl_vars['random_prod']->value['price'];?>
 </strong></h3>
             </a>
-            <form id = "number_form" action="/add_cart" method="post" >
-                <input type = "hidden" name = "image" value = "<?php echo $_smarty_tpl->tpl_vars['random_prod']->value['image'];?>
+            <input type = "hidden" id = "image" name = "image" value = "<?php echo $_smarty_tpl->tpl_vars['random_prod']->value['image'];?>
 ">
-                <input type = "hidden" name = "product_id" value = "<?php echo $_smarty_tpl->tpl_vars['random_prod']->value['id'];?>
+            <input type = "hidden" id = "product_id" name = "product_id" value = "<?php echo $_smarty_tpl->tpl_vars['random_prod']->value['id'];?>
 ">
-                <input type = "hidden" name = "price" value = "<?php echo $_smarty_tpl->tpl_vars['random_prod']->value['price'];?>
+            <input type = "hidden" id ="price" name = "price" value = "<?php echo $_smarty_tpl->tpl_vars['random_prod']->value['price'];?>
 ">
-                <input type = "hidden" name = "name" value = "<?php echo $_smarty_tpl->tpl_vars['random_prod']->value['name'];?>
+            <input type = "hidden" id = "name" name = "name" value = "<?php echo $_smarty_tpl->tpl_vars['random_prod']->value['name'];?>
 ">
-                <input type = "number" id = "quantity" name = "quantity" list = "defaultNumbers" style = "width:70px" min = 1 max = "<?php echo $_smarty_tpl->tpl_vars['random_prod']->value['stock'];?>
+            <input type = "number" id = "quantity" name = "quantity" list = "defaultNumbers" style = "width:70px" min = 1 max = "<?php echo $_smarty_tpl->tpl_vars['random_prod']->value['stock'];?>
 " placeholder="1" value = "1">
-                <input type="submit" id = "btn-add-cart" class = "btn btn-primary" value = "加入購物車">
-            </form>
+            <?php $_smarty_tpl->_assignInScope('temp', 0);?>
+            <?php if (isset($_smarty_tpl->tpl_vars['user_carts']->value)) {?>
+                <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['user_carts']->value, 'user_cart');
+if ($_from !== null) {
+foreach ($_from as $_smarty_tpl->tpl_vars['user_cart']->value) {
+?>
+                    <?php if (in_array($_smarty_tpl->tpl_vars['random_prod']->value['id'],$_smarty_tpl->tpl_vars['user_cart']->value)) {?>
+                        <?php $_smarty_tpl->_assignInScope('temp', $_smarty_tpl->tpl_vars['temp']->value+1);?>
+                        <button type = "submit" class = "btn btn-add-cart btn-primary" disabled>
+                            <i class="fas fa-cart-plus fa" style = "padding-right:1em;"></i>已在購物車
+                        </button>
+                        <?php break 1;?>
+                    <?php }?>
+                <?php
+}
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+            <?php }?>
+            <?php if ($_smarty_tpl->tpl_vars['temp']->value == 0) {?>
+                <button type = "submit" class = "btn btn-add-cart btn-primary">
+                    <i class="fas fa-cart-plus fa" style = "padding-right:1em;"></i>加入購物車
+                </button>
+            <?php }?>
         </div>
     <?php
 }

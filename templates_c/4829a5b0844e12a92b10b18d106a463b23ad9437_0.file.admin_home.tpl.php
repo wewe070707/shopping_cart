@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-27 17:41:20
+/* Smarty version 3.1.33, created on 2019-06-28 17:17:05
   from 'C:\xampp\htdocs\shopping_cart\view\admin_home.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d148f40d4fc55_51120541',
+  'unifunc' => 'content_5d15db11007037_82588276',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '4829a5b0844e12a92b10b18d106a463b23ad9437' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\admin_home.tpl',
-      1 => 1561628480,
+      1 => 1561713424,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d148f40d4fc55_51120541 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d15db11007037_82588276 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div class = "container" style="background:white;">
     <div class = "row">
         <div class = "col-lg-12">
@@ -87,6 +87,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                     <td style = "width:150px;">名稱</td>
                     <td style="vertical-align: middle;">數量</td>
                     <td>價格</td>
+                    <td>特價</td>
                     <td>敘述</td>
                     <td></td>
                 </tr>
@@ -104,12 +105,24 @@ foreach ($_from as $_smarty_tpl->tpl_vars['product']->value) {
 </td>
                         <td><?php echo preg_replace('!<[^>]*?>!', ' ', $_smarty_tpl->tpl_vars['product']->value['stock']);?>
 </td>
-                        <td><?php echo preg_replace('!<[^>]*?>!', ' ', $_smarty_tpl->tpl_vars['product']->value['price']);?>
+                        <?php if ($_smarty_tpl->tpl_vars['product']->value['price_before_discount'] == 0) {?>
+                            <td><?php echo preg_replace('!<[^>]*?>!', ' ', $_smarty_tpl->tpl_vars['product']->value['price']);?>
 </td>
+                        <?php } else { ?>
+                            <td><?php echo preg_replace('!<[^>]*?>!', ' ', $_smarty_tpl->tpl_vars['product']->value['price_before_discount']);?>
+</td>
+                        <?php }?>
+                        <?php if ($_smarty_tpl->tpl_vars['product']->value['price_before_discount'] != 0) {?>
+                            <td><?php echo preg_replace('!<[^>]*?>!', ' ', $_smarty_tpl->tpl_vars['product']->value['price']);?>
+</td>
+                        <?php } else { ?>
+                            <td>無</td>
+                        <?php }?>
                         <td><?php echo preg_replace('!<[^>]*?>!', ' ', $_smarty_tpl->tpl_vars['product']->value['description']);?>
 </td>
                         <td style = "vertical-align: middle;">
                             <form action = "admin_home" method = "post">
+                                <!-- <input name = "edit" class = "btn btn-primary" type = "submit" value = '編輯' > -->
                                 <input name = "edit" class = "btn btn-primary" type = "submit" value = '編輯' >
                                 <input name = "product_id" type = "hidden" value = "<?php echo $_smarty_tpl->tpl_vars['product']->value['id'];?>
 ">
@@ -319,8 +332,8 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
             </div>
         </div>
         <div id = "e_coin" class = "tab-pane fade">
-            <div>
-                <h3>全部E幣: <?php echo $_smarty_tpl->tpl_vars['e_coins']->value[0]['total'];?>
+            <div style="text-align:center;">
+                <h3>平台全部E幣: <?php echo $_smarty_tpl->tpl_vars['e_coins']->value[0]['total'];?>
 </h3>
 
             </div>

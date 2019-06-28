@@ -1,19 +1,45 @@
-// $("#btn-addcart").click(function() {
-//     $.ajax({
-//         url:route.php,
-//         data:,
-//         type: "POST",
-//         dataType: "json",
-//         success: function(){
-//
-//         },
-//         error: function(){
-//
-//         }
-//     });
-// });
-
 $(document).ready(function(){
+// ajax for add to shopping carts
+$(".btn-add-cart").click(function() {
+    var quantity = $(this).closest('div').find('#quantity').val();
+    var image = $(this).closest('div').find('#image').val();
+    var product_id = $(this).closest('div').find('#product_id').val();
+    var price = $(this).closest('div').find('#price').val();
+    var name = $(this).closest('div').find('#name').val();
+    var clickevent = $(this);
+    $.ajax({
+        url: "add_cart",
+        data: {
+            quantity: quantity,
+            image: image,
+            product_id: product_id,
+            price: price,
+            name: name
+        },
+        type: "POST",
+        dataType: 'json',
+        success: function(msg) {
+                console.log(msg);
+                if(msg.msg == "fail login"){
+                    window.location.href = "login";
+                } else{
+                    $(clickevent).attr('disabled',true);
+                    $(clickevent).text('已加入購物車');
+                }
+            },
+            error: function(xhr) {
+                alert(JSON.stringify(xhr));
+                console.log("fail");
+            },
+    });
+});
+$('#sale').click(function() {
+    var max_price = $("#sale_price").attr('max');
+    $("#sale_price").toggle(this.checked);
+    $("#sale_price").attr('placeholder',"must lower than "+ max_price);
+    $("#price").toggle(!this.checked);
+});
+
 // Prevent user reload page again and again after submiting form
 if ( window.history.replaceState ) {
     window.history.replaceState( null, null, window.location.href );
@@ -121,5 +147,4 @@ $(function(){
             $("input[type='radio']").prop('checked', false);
         }
     });
-
 });

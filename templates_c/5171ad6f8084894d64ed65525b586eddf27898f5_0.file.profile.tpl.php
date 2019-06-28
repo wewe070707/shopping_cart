@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-27 17:43:20
+/* Smarty version 3.1.33, created on 2019-06-28 10:22:28
   from 'C:\xampp\htdocs\shopping_cart\view\profile.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d148fb8f32277_45487684',
+  'unifunc' => 'content_5d1579e402dd70_37352472',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5171ad6f8084894d64ed65525b586eddf27898f5' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\profile.tpl',
-      1 => 1561628600,
+      1 => 1561688530,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d148fb8f32277_45487684 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d1579e402dd70_37352472 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\xampp\\htdocs\\shopping_cart\\libs\\plugins\\modifier.date_format.php','function'=>'smarty_modifier_date_format',),));
 ?>
 <div class = "container" style = "background-image:/uploads/123.png">
@@ -151,7 +151,7 @@ foreach ($_from as $_smarty_tpl->tpl_vars['user']->value) {
                                     <i class="fas fa-cash-register fa" style = "padding-right:1em; color:white"></i>金額不足
                                 </button>
                                 <?php } elseif ($_smarty_tpl->tpl_vars['user']->value['money'] >= $_smarty_tpl->tpl_vars['total_price']->value) {?>
-                                    <input type = "hidden" name = "wallet" value = "<?php echo $_smarty_tpl->tpl_vars['user']->value['money'];?>
+                                    <input type = "hidden" name = "e_coin" value = "<?php echo $_smarty_tpl->tpl_vars['user']->value['e_coin'];?>
 ">
                                     <button type = "submit" class = "btn btn-primary" name = "total_confirm" onclick = "return confirm('前往結帳?')">
                                         <i class="fas fa-cash-register fa" style = "padding-right:1em; color:white"></i>全部結帳去
