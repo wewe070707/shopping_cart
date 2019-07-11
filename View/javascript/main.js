@@ -45,6 +45,8 @@ if ( window.history.replaceState ) {
     window.history.replaceState( null, null, window.location.href );
 }
 
+
+
 var coll = document.getElementsByClassName("collapsible");
 var i;
 

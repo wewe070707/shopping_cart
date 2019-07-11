@@ -70,6 +70,7 @@
                             <input type = "hidden" name = "name" value = "{$product['name']}">
                             <input type = "hidden" id = "h_quantity" name = "quantity" value = "">
                             <input type = "hidden" name = "direct" value = "1">
+                            <input type = "hidden" name = "single_confirm">
                             <button type = "submit" class = "btn btn-primary btn-lg" style="background:#ca4242" name = "single_confirm" onclick = "getNumber();" >
                                 <i class="fas fa-cash-register fa" style = "color: #e6c61e;padding-right:1em;"></i>直接購買
                             </button>

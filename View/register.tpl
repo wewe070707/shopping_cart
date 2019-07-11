@@ -20,6 +20,9 @@
 						{/foreach}
 					{/if}
 
+					{if isset($smarty.session.error)}
+						<div class = "alert alert-danger">{$smarty.session.error}</div>
+					{/if}
 					<!-- if action is joined show sucess -->
 					{if isset($smarty.get.action) and ($smarty.get.action == 'joined')}
 						<h2 class='bg-success'>Registration successful, please check your email to activate your account</h2>

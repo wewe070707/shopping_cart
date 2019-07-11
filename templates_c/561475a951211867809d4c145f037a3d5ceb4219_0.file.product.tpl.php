@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-28 16:30:57
+/* Smarty version 3.1.33, created on 2019-07-11 11:56:26
   from 'C:\xampp\htdocs\shopping_cart\view\product.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d15d041ca1c99_08421299',
+  'unifunc' => 'content_5d26b36a1be666_81483977',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '561475a951211867809d4c145f037a3d5ceb4219' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\product.tpl',
-      1 => 1561710656,
+      1 => 1562817375,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d15d041ca1c99_08421299 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d26b36a1be666_81483977 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div class = "container">
     <div class = "row" style="background:white;">
         <?php
@@ -119,6 +119,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 ">
                             <input type = "hidden" id = "h_quantity" name = "quantity" value = "">
                             <input type = "hidden" name = "direct" value = "1">
+                            <input type = "hidden" name = "single_confirm">
                             <button type = "submit" class = "btn btn-primary btn-lg" style="background:#ca4242" name = "single_confirm" onclick = "getNumber();" >
                                 <i class="fas fa-cash-register fa" style = "color: #e6c61e;padding-right:1em;"></i>直接購買
                             </button>

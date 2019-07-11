@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-18 15:44:46
+/* Smarty version 3.1.33, created on 2019-07-11 10:33:45
   from 'C:\xampp\htdocs\shopping_cart\view\register.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d08966e61c6a4_19653597',
+  'unifunc' => 'content_5d26a00923d975_96950063',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '6155fd3a762a32e8ee96c64e878f8f79d78494cc' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\register.tpl',
-      1 => 1560843885,
+      1 => 1562812424,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d08966e61c6a4_19653597 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d26a00923d975_96950063 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -51,6 +51,10 @@ foreach ($_from as $_smarty_tpl->tpl_vars['errors']->value) {
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 					<?php }?>
 
+					<?php if (isset($_SESSION['error'])) {?>
+						<div class = "alert alert-danger"><?php echo $_SESSION['error'];?>
+</div>
+					<?php }?>
 					<!-- if action is joined show sucess -->
 					<?php if (isset($_GET['action']) && ($_GET['action'] == 'joined')) {?>
 						<h2 class='bg-success'>Registration successful, please check your email to activate your account</h2>

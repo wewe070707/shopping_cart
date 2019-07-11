@@ -53,14 +53,14 @@
                                         <input type = "hidden" name = "price" value = "{$shopping_cart['price']}">
                                         <input type = "hidden" name = "quantity" value = "{$shopping_cart['quantity']}">
                                         <input type = "hidden" name = "name" value = "{$shopping_cart['name']}">
-
+                                        
                                     {/foreach}
                                 {/if}
                                 <button type = "button" onclick = "history.back()" class = "btn btn-primary">返回</button>
                                 {if $wallet<$total}
                                     <input class = "btn btn-primary" type = "submit" value = "餘額不足" disabled>
                                 {else}
-                                    <button type = "submit" class = "btn btn-primary" name = "total_confirm" onclick = "return confirm('確認結帳?')">
+                                    <button type = "submit" class = "btn btn-primary" name = "total_confirm" >
                                         <i class="fas fa-cash-register fa" style = "padding-right:1em; color:white"></i>結帳
                                     </button>
                                 {/if}
@@ -104,14 +104,15 @@
                             </div>
                         {/foreach}
                     </div>
-                    <form action = "transfer" method="post">
+                    <form id = "test" action = "transfer" method="post">
                         <input type ="hidden" name = "coin" value = "{$coin}">
                         <input type ="hidden" name = "e_coin" value = "{$e_coin}">
+                        <input type ="hidden" name = "recharge">
                         <button type = "button" onclick = "history.back()" class = "btn btn-primary">返回</button>
                         {if $user['money'] < $coin|string_format:"%.2f"}
                             <input type ="submit" class = "btn btn-primary" value = "餘額不足" disabled>
                         {else}
-                            <input type ="submit" class = "btn btn-primary" name = "recharge" value = "送出" onclick="return confirm('確認送出?');">
+                            <input type ="submit" class = "btn btn-primary recharge" name = "recharge" value = "送出" >
                         {/if}
                     </form>
                 </ul>
@@ -121,8 +122,8 @@
                 <h2><strong>確認送出交易?</strong></h2>
                 <label>
                     <p>您所選擇的面額為<span style="font-size: 25px;color:tomato">E幣: {$amount_of_money}</span></p>
-                    您將兌換<span style="font-size: 25px;color:tomato">E幣
-                    {if $amount_of_money eq 85}{$money=85}85
+                    您將兌換<span style="font-size: 25px;color:tomato">NT$
+                    {if $amount_of_money eq 100}{$money=85}85
                     {elseif $amount_of_money eq 250}{$money=212.5}212.5
                     {elseif $amount_of_money eq 500}{$money=425}425
                     {elseif $amount_of_money eq 1000}{$money=850}850
@@ -132,7 +133,6 @@
                     至 帳戶: <span style="font-size: 25px;color:tomato">{$users[0]['wallet_account']}</span>
                 </label>
                 <div class = "row">
-
                     {foreach $users as $user}
                         <div class = "col-lg-6">
                             <i class="fas fa-user fa-2x" style = "margin-top:1em ;display:block;">您的帳戶 ： {$user['wallet_account']}</i>
@@ -149,11 +149,12 @@
                 <form action = "transfer" method="post">
                     <input type ="hidden" name = "money" value = "{$money}">
                     <input type ="hidden" name = "e_coin" value = "{$amount_of_money}">
+                    <input type ="hidden" name = "change">
                     <button type = "button" onclick = "history.back()" class = "btn btn-primary">返回</button>
                     {if $user['e_coin'] < $amount_of_money|string_format:"%.2f"}
                         <input type ="submit" class = "btn btn-primary" value = "餘額不足" disabled>
                     {else}
-                        <input type ="submit" class = "btn btn-primary" name = "change" value = "送出" onclick="return confirm('確認送出?');">
+                        <input type ="submit" class = "btn btn-primary" name = "change" value = "送出" >
                     {/if}
                 </form>
             </ul>
@@ -161,3 +162,8 @@
         </div>
     </div>
 </div>
+<script>
+$('form').submit(function() {
+    $(this).find('input[type="submit"]').prop('disabled',true);
+  });
+</script>

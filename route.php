@@ -1,7 +1,11 @@
 <?php
 // $route = new Router(Request::uri()); //搭配 .htaccess 排除資料夾名稱後解析 URL
 // $route->getParameter(0); //
-$path=$_SERVER['PATH_INFO'];
+// try{
+$path=@$_SERVER['PATH_INFO'];
+// } catch (Exception $e) {
+    // echo $e->getMessage();
+// }
 $path=ltrim($path,'/');
 require 'libs/Smarty.class.php';
 $smarty = new Smarty;
@@ -15,6 +19,7 @@ date_default_timezone_set('Asia/Taipei');
 // 用參數決定載入某頁並讀取需要的資料
 switch($path){
     case "register":
+    
     if(UserVeridator::isLogin(isset($_SESSION['username'])?$_SESSION['username']:'')){
         header('Location: home');
     }
@@ -84,11 +89,21 @@ switch($path){
               'created_at' => $date
               // 'active' => $activasion
             );
-            Database::get()->insert("users", $data_array);
-            $user_id = Database::get()->getLastId();
 
             $wallet = new Wallet();
-            $wallet->createWallet($uniqueId);
+            $output = $wallet->createWallet($uniqueId);
+            if( strpos($output,"false")){
+                $_SESSION['error'] = 'Create api account fail!';
+                header('Location: register');
+            }else{
+                Database::get()->insert("users", $data_array);
+                $user_id = Database::get()->getLastId();
+                unset($_SESSION['error']);
+                $_SESSION['level'] = 'user';
+                $_SESSION['id'] = $user_id;
+                $_SESSION['username'] = $username;
+                header('Location: '.'home');
+            }
             // $url = "http://phili.test/wallet.class.php?action=insert_wallet&userid=" . $uniqueId;
             // $ch = curl_init();
             // curl_setopt($ch, CURLOPT_URL, $url);
@@ -96,10 +111,7 @@ switch($path){
             // $output = curl_exec($ch);
             // curl_close($ch);
 
-            $_SESSION['level'] = 'user';
-            $_SESSION['id'] = $user_id;
-            $_SESSION['username'] = $username;
-            header('Location: '.'home');
+            
 
           //else catch the exception and show the error.
           } catch(PDOException $e) {

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-28 10:07:28
+/* Smarty version 3.1.33, created on 2019-07-11 11:59:33
   from 'C:\xampp\htdocs\shopping_cart\view\confirm.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d1576609c8816_76179541',
+  'unifunc' => 'content_5d26b4253d4ef7_17856455',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '04f4be872433cf1cefc27d0096820ad2c3db390a' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\confirm.tpl',
-      1 => 1561687589,
+      1 => 1562817563,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d1576609c8816_76179541 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d26b4253d4ef7_17856455 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div class = "container" style="background:white">
     <div class = "row">
         <div class = 'col-lg-12'>
@@ -100,7 +100,7 @@ foreach ($_from as $_smarty_tpl->tpl_vars['shopping_cart']->value) {
 ">
                                         <input type = "hidden" name = "name" value = "<?php echo $_smarty_tpl->tpl_vars['shopping_cart']->value['name'];?>
 ">
-
+                                        
                                     <?php
 }
 }
@@ -110,7 +110,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                                 <?php if ($_smarty_tpl->tpl_vars['wallet']->value < $_smarty_tpl->tpl_vars['total']->value) {?>
                                     <input class = "btn btn-primary" type = "submit" value = "餘額不足" disabled>
                                 <?php } else { ?>
-                                    <button type = "submit" class = "btn btn-primary" name = "total_confirm" onclick = "return confirm('確認結帳?')">
+                                    <button type = "submit" class = "btn btn-primary" name = "total_confirm" >
                                         <i class="fas fa-cash-register fa" style = "padding-right:1em; color:white"></i>結帳
                                     </button>
                                 <?php }?>
@@ -174,16 +174,17 @@ foreach ($_from as $_smarty_tpl->tpl_vars['user']->value) {
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                     </div>
-                    <form action = "transfer" method="post">
+                    <form id = "test" action = "transfer" method="post">
                         <input type ="hidden" name = "coin" value = "<?php echo $_smarty_tpl->tpl_vars['coin']->value;?>
 ">
                         <input type ="hidden" name = "e_coin" value = "<?php echo $_smarty_tpl->tpl_vars['e_coin']->value;?>
 ">
+                        <input type ="hidden" name = "recharge">
                         <button type = "button" onclick = "history.back()" class = "btn btn-primary">返回</button>
                         <?php if ($_smarty_tpl->tpl_vars['user']->value['money'] < sprintf("%.2f",$_smarty_tpl->tpl_vars['coin']->value)) {?>
                             <input type ="submit" class = "btn btn-primary" value = "餘額不足" disabled>
                         <?php } else { ?>
-                            <input type ="submit" class = "btn btn-primary" name = "recharge" value = "送出" onclick="return confirm('確認送出?');">
+                            <input type ="submit" class = "btn btn-primary recharge" name = "recharge" value = "送出" >
                         <?php }?>
                     </form>
                 </ul>
@@ -194,8 +195,8 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                 <label>
                     <p>您所選擇的面額為<span style="font-size: 25px;color:tomato">E幣: <?php echo $_smarty_tpl->tpl_vars['amount_of_money']->value;?>
 </span></p>
-                    您將兌換<span style="font-size: 25px;color:tomato">E幣
-                    <?php if ($_smarty_tpl->tpl_vars['amount_of_money']->value == 85) {
+                    您將兌換<span style="font-size: 25px;color:tomato">NT$
+                    <?php if ($_smarty_tpl->tpl_vars['amount_of_money']->value == 100) {
 $_smarty_tpl->_assignInScope('money', 85);?>85
                     <?php } elseif ($_smarty_tpl->tpl_vars['amount_of_money']->value == 250) {
 $_smarty_tpl->_assignInScope('money', 212.5);?>212.5
@@ -212,7 +213,6 @@ $_smarty_tpl->_assignInScope('money', 4250);?>4250
 </span>
                 </label>
                 <div class = "row">
-
                     <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['users']->value, 'user');
 if ($_from !== null) {
@@ -243,11 +243,12 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 ">
                     <input type ="hidden" name = "e_coin" value = "<?php echo $_smarty_tpl->tpl_vars['amount_of_money']->value;?>
 ">
+                    <input type ="hidden" name = "change">
                     <button type = "button" onclick = "history.back()" class = "btn btn-primary">返回</button>
                     <?php if ($_smarty_tpl->tpl_vars['user']->value['e_coin'] < sprintf("%.2f",$_smarty_tpl->tpl_vars['amount_of_money']->value)) {?>
                         <input type ="submit" class = "btn btn-primary" value = "餘額不足" disabled>
                     <?php } else { ?>
-                        <input type ="submit" class = "btn btn-primary" name = "change" value = "送出" onclick="return confirm('確認送出?');">
+                        <input type ="submit" class = "btn btn-primary" name = "change" value = "送出" >
                     <?php }?>
                 </form>
             </ul>
@@ -255,5 +256,11 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
         </div>
     </div>
 </div>
-<?php }
+<?php echo '<script'; ?>
+>
+$('form').submit(function() {
+    $(this).find('input[type="submit"]').prop('disabled',true);
+  });
+<?php echo '</script'; ?>
+><?php }
 }
