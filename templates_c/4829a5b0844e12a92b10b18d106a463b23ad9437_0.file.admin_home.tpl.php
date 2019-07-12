@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-28 17:17:05
+/* Smarty version 3.1.33, created on 2019-07-12 15:54:32
   from 'C:\xampp\htdocs\shopping_cart\view\admin_home.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d15db11007037_82588276',
+  'unifunc' => 'content_5d283cb8b77d52_92641422',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '4829a5b0844e12a92b10b18d106a463b23ad9437' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\admin_home.tpl',
-      1 => 1561713424,
+      1 => 1562918072,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d15db11007037_82588276 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d283cb8b77d52_92641422 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div class = "container" style="background:white;">
     <div class = "row">
         <div class = "col-lg-12">
@@ -68,8 +68,13 @@ foreach ($_from as $_smarty_tpl->tpl_vars['user']->value) {
                             <form action = "admin_home" method = "POST">
                                 <input type = "hidden" name = "user_id" value = "<?php echo $_smarty_tpl->tpl_vars['user']->value['id'];?>
 ">
-                                <!-- <input type = "submit" name = "delete_user" class = "btn btn-danger" onclick = "return confirm('確認刪除?')"  value = "刪除"> -->
-                                <button type = "submit" name = "delete_user" onclick = "return confirm('確認刪除?')"><i class="fas fa-trash-alt fa-2x" style = "color:#d9534f"></i></button>
+                                <button type = "submit" name = "edit_user" ><a data-toggle="modal" data-id = "<?php echo $_smarty_tpl->tpl_vars['user']->value['id'];?>
+" data-backdrop="true" data-keyboard="true" data-target="#editPassword"><i class="fas fa-edit fa-2x" style = "color:#4f92d9"></i></a></button>
+                                <?php if ($_smarty_tpl->tpl_vars['user']->value['id'] == $_SESSION['id']) {?>
+                                    <button type = "submit" disabled><i class="fas fa-trash-alt fa-2x" style = "color:#b3b3b3"></i></button>
+                                <?php } else { ?>
+                                    <button type = "submit" name = "delete_user" onclick = "return confirm('確認刪除?')"><i class="fas fa-trash-alt fa-2x" style = "color:#d9534f"></i></button>
+                                <?php }?>
                             </form>
                         </td>
                     </tr>
@@ -294,6 +299,37 @@ foreach ($_from as $_smarty_tpl->tpl_vars['order_not_check']->value) {
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                     </table>
+                    <nav style = "text-align:center;">
+                          <ul class="pagination">
+                            <li class="page-item">
+                              <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                              </a>
+                            </li>
+                            <?php if (isset($_smarty_tpl->tpl_vars['page_incomplete']->value)) {?>
+                                <?php
+$_smarty_tpl->tpl_vars['i'] = new Smarty_Variable(null, $_smarty_tpl->isRenderingCache);$_smarty_tpl->tpl_vars['i']->step = 1;$_smarty_tpl->tpl_vars['i']->total = (int) ceil(($_smarty_tpl->tpl_vars['i']->step > 0 ? $_smarty_tpl->tpl_vars['page_incomplete']->value['pages']+1 - (1) : 1-($_smarty_tpl->tpl_vars['page_incomplete']->value['pages'])+1)/abs($_smarty_tpl->tpl_vars['i']->step));
+if ($_smarty_tpl->tpl_vars['i']->total > 0) {
+for ($_smarty_tpl->tpl_vars['i']->value = 1, $_smarty_tpl->tpl_vars['i']->iteration = 1;$_smarty_tpl->tpl_vars['i']->iteration <= $_smarty_tpl->tpl_vars['i']->total;$_smarty_tpl->tpl_vars['i']->value += $_smarty_tpl->tpl_vars['i']->step, $_smarty_tpl->tpl_vars['i']->iteration++) {
+$_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration === 1;$_smarty_tpl->tpl_vars['i']->last = $_smarty_tpl->tpl_vars['i']->iteration === $_smarty_tpl->tpl_vars['i']->total;?>
+                                    <li class="page-item"><a class="page-link" href="?page=<?php echo $_smarty_tpl->tpl_vars['i']->value;?>
+#order#unprocessed"><?php echo $_smarty_tpl->tpl_vars['i']->value;?>
+</a></li>
+                                <?php }
+}
+?>
+                            <?php } else { ?>
+                                <li class="page-item"><a class="page-link">1</a></li>
+                            <?php }?>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                          </ul>
+                      </nav>
                 </div>
                 </form>
                 <!--  order processed table -->
@@ -328,6 +364,37 @@ foreach ($_from as $_smarty_tpl->tpl_vars['order_check']->value) {
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
                     </table>
+                    <nav style = "text-align:center;">
+                          <ul class="pagination">
+                            <li class="page-item">
+                              <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                              </a>
+                            </li>
+                            <?php if (isset($_smarty_tpl->tpl_vars['page_complete']->value)) {?>
+                                <?php
+$_smarty_tpl->tpl_vars['i'] = new Smarty_Variable(null, $_smarty_tpl->isRenderingCache);$_smarty_tpl->tpl_vars['i']->step = 1;$_smarty_tpl->tpl_vars['i']->total = (int) ceil(($_smarty_tpl->tpl_vars['i']->step > 0 ? $_smarty_tpl->tpl_vars['page_complete']->value['pages']+1 - (1) : 1-($_smarty_tpl->tpl_vars['page_complete']->value['pages'])+1)/abs($_smarty_tpl->tpl_vars['i']->step));
+if ($_smarty_tpl->tpl_vars['i']->total > 0) {
+for ($_smarty_tpl->tpl_vars['i']->value = 1, $_smarty_tpl->tpl_vars['i']->iteration = 1;$_smarty_tpl->tpl_vars['i']->iteration <= $_smarty_tpl->tpl_vars['i']->total;$_smarty_tpl->tpl_vars['i']->value += $_smarty_tpl->tpl_vars['i']->step, $_smarty_tpl->tpl_vars['i']->iteration++) {
+$_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration === 1;$_smarty_tpl->tpl_vars['i']->last = $_smarty_tpl->tpl_vars['i']->iteration === $_smarty_tpl->tpl_vars['i']->total;?>
+                                    <li class="page-item"><a class="page-link" href="?page=<?php echo $_smarty_tpl->tpl_vars['i']->value;?>
+#order#processed"><?php echo $_smarty_tpl->tpl_vars['i']->value;?>
+</a></li>
+                                <?php }
+}
+?>
+                            <?php } else { ?>
+                                <li class="page-item"><a class="page-link">1</a></li>
+                            <?php }?>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                          </ul>
+                      </nav>
                 </div>
             </div>
         </div>
@@ -340,54 +407,89 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
         </div>
     </div>
     <div class="modal" id="newProduct" >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #3490dc">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <h3 style = "color: #f8f9fa">New Product</h3>
+                </div>
+                <div class="modal-body">
+                    <form enctype = "multipart/form-data" class = "form-horizontal"  method="post">
+                        <div class="form-group">
+                            <div style="display:flex;">
+                                <label for="inputContent" class="col-sm-2 control-label">Type</label>
+                                <input type = "text" name="type" class="form-control" list = "type">
+                                <datalist id ="type" class="form-control" style="display:none;">
+                                    <?php
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['types']->value, 'type');
+if ($_from !== null) {
+foreach ($_from as $_smarty_tpl->tpl_vars['type']->value) {
+?>
+                                        <option><?php echo $_smarty_tpl->tpl_vars['type']->value['type'];?>
+</option>
+                                    <?php
+}
+}
+$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+                                </datalist>
+                                <label for="inputContent" class="col-sm-2 control-label">Name</label>
+                                <input type = "text" name="name" class="form-control" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div style="display:flex;">
+                                <label for="inputContent" class="col-sm-2 control-label">Quantity</label>
+                                <input type = "number" name="quantity" class="form-control" min = "0">
+                                <label for="inputContent" class="col-sm-2 control-label">Price</label>
+                                <input type = "number" name="price" class="form-control" min = "0" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div style="display:flex;">
+                                <label for="inputContent" class="col-sm-2 control-label">Description</label>
+                                <textarea name="description" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div style="display:flex;">
+                                <label for="inputContent" class="col-sm-2 control-label">image</label>
+                                <input type = "file" name = "product_image" >
+                            </div>
+                        </div>
+                        <div class=" form-group modal-body">
+                            <div class="form-group modal-footer" id="modal_footer">
+                                <input type="submit" name ="submit_product" class = "btn btn-primary" value="送出">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="modal" id="editPassword" >
           <div class="modal-dialog modal-lg">
               <div class="modal-content">
                   <div class="modal-header" style="background: #3490dc">
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <i class="fas fa-times"></i>
                       </button>
-                      <h3 style = "color: #f8f9fa">New Product</h3>
+                      <h3 style = "color: #f8f9fa">Edit Password</h3>
                   </div>
                   <div class="modal-body">
                       <form class = "form-horizontal"  method="post">
                           <div class="form-group">
                               <div style="display:flex;">
-                                  <label for="inputContent" class="col-sm-2 control-label">Type</label>
-                                  <input type = "text" name="type" class="form-control" list = "type">
-                                  <datalist id ="type" class="form-control" style="display:none;">
-                                      <?php
-$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['types']->value, 'type');
-if ($_from !== null) {
-foreach ($_from as $_smarty_tpl->tpl_vars['type']->value) {
-?>
-                                            <option><?php echo $_smarty_tpl->tpl_vars['type']->value['type'];?>
-</option>
-                                      <?php
-}
-}
-$_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
-                                  </datalist>
-                                  <label for="inputContent" class="col-sm-2 control-label">Name</label>
-                                  <input type = "text" name="name" class="form-control" >
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <div style="display:flex;">
-                                  <label for="inputContent" class="col-sm-2 control-label">Quantity</label>
-                                  <input type = "number" name="quantity" class="form-control" min = "0">
-                                  <label for="inputContent" class="col-sm-2 control-label">Price</label>
-                                  <input type = "number" name="price" class="form-control" min = "0" >
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <div style="display:flex;">
-                                  <label for="inputContent" class="col-sm-2 control-label">Description</label>
-                                  <textarea name="description" class="form-control" rows="3"></textarea>
+                                  <label for="inputContent" class="col-sm-2 control-label">Password</label>
+                                  <input type = "password" name="password" class="form-control">
+                                  <input id = "edit_id" type = "hidden" name="edit_id" class="form-control">
                               </div>
                           </div>
                           <div class=" form-group modal-body">
                               <div class="form-group modal-footer" id="modal_footer">
-                                  <input type="submit" name ="submit_product" class = "btn btn-primary" value="送出">
+                                  <input type="submit" name ="edit_password" class = "btn btn-primary" value="送出">
                               </div>
                           </div>
                       </form>

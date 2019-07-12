@@ -36,8 +36,12 @@
                         <td>
                             <form action = "admin_home" method = "POST">
                                 <input type = "hidden" name = "user_id" value = "{$user['id']}">
-                                <!-- <input type = "submit" name = "delete_user" class = "btn btn-danger" onclick = "return confirm('確認刪除?')"  value = "刪除"> -->
-                                <button type = "submit" name = "delete_user" onclick = "return confirm('確認刪除?')"><i class="fas fa-trash-alt fa-2x" style = "color:#d9534f"></i></button>
+                                <button type = "submit" name = "edit_user" ><a data-toggle="modal" data-id = "{$user['id']}" data-backdrop="true" data-keyboard="true" data-target="#editPassword"><i class="fas fa-edit fa-2x" style = "color:#4f92d9"></i></a></button>
+                                {if $user['id'] eq $smarty.session.id}
+                                    <button type = "submit" disabled><i class="fas fa-trash-alt fa-2x" style = "color:#b3b3b3"></i></button>
+                                {else}
+                                    <button type = "submit" name = "delete_user" onclick = "return confirm('確認刪除?')"><i class="fas fa-trash-alt fa-2x" style = "color:#d9534f"></i></button>
+                                {/if}
                             </form>
                         </td>
                     </tr>
@@ -201,6 +205,29 @@
                             </tr>
                         {/foreach}
                     </table>
+                    <nav style = "text-align:center;">
+                          <ul class="pagination">
+                            <li class="page-item">
+                              <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                              </a>
+                            </li>
+                            {if isset($page_incomplete)}
+                                {for $i=1 to $page_incomplete['pages']}
+                                    <li class="page-item"><a class="page-link" href="?page={$i}#order#unprocessed">{$i}</a></li>
+                                {/for}
+                            {else}
+                                <li class="page-item"><a class="page-link">1</a></li>
+                            {/if}
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                          </ul>
+                      </nav>
                 </div>
                 </form>
                 <!--  order processed table -->
@@ -223,6 +250,29 @@
                             </tr>
                         {/foreach}
                     </table>
+                    <nav style = "text-align:center;">
+                          <ul class="pagination">
+                            <li class="page-item">
+                              <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                              </a>
+                            </li>
+                            {if isset($page_complete)}
+                                {for $i=1 to $page_complete['pages']}
+                                    <li class="page-item"><a class="page-link" href="?page={$i}#order#processed">{$i}</a></li>
+                                {/for}
+                            {else}
+                                <li class="page-item"><a class="page-link">1</a></li>
+                            {/if}
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                          </ul>
+                      </nav>
                 </div>
             </div>
         </div>
@@ -234,46 +284,81 @@
         </div>
     </div>
     <div class="modal" id="newProduct" >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #3490dc">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <h3 style = "color: #f8f9fa">New Product</h3>
+                </div>
+                <div class="modal-body">
+                    <form enctype = "multipart/form-data" class = "form-horizontal"  method="post">
+                        <div class="form-group">
+                            <div style="display:flex;">
+                                <label for="inputContent" class="col-sm-2 control-label">Type</label>
+                                <input type = "text" name="type" class="form-control" list = "type">
+                                <datalist id ="type" class="form-control" style="display:none;">
+                                    {foreach $types as $type}
+                                        <option>{$type['type']}</option>
+                                    {/foreach}
+                                </datalist>
+                                <label for="inputContent" class="col-sm-2 control-label">Name</label>
+                                <input type = "text" name="name" class="form-control" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div style="display:flex;">
+                                <label for="inputContent" class="col-sm-2 control-label">Quantity</label>
+                                <input type = "number" name="quantity" class="form-control" min = "0">
+                                <label for="inputContent" class="col-sm-2 control-label">Price</label>
+                                <input type = "number" name="price" class="form-control" min = "0" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div style="display:flex;">
+                                <label for="inputContent" class="col-sm-2 control-label">Description</label>
+                                <textarea name="description" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div style="display:flex;">
+                                <label for="inputContent" class="col-sm-2 control-label">image</label>
+                                <input type = "file" name = "product_image" >
+                            </div>
+                        </div>
+                        <div class=" form-group modal-body">
+                            <div class="form-group modal-footer" id="modal_footer">
+                                <input type="submit" name ="submit_product" class = "btn btn-primary" value="送出">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="modal" id="editPassword" >
           <div class="modal-dialog modal-lg">
               <div class="modal-content">
                   <div class="modal-header" style="background: #3490dc">
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <i class="fas fa-times"></i>
                       </button>
-                      <h3 style = "color: #f8f9fa">New Product</h3>
+                      <h3 style = "color: #f8f9fa">Edit Password</h3>
                   </div>
                   <div class="modal-body">
                       <form class = "form-horizontal"  method="post">
                           <div class="form-group">
                               <div style="display:flex;">
-                                  <label for="inputContent" class="col-sm-2 control-label">Type</label>
-                                  <input type = "text" name="type" class="form-control" list = "type">
-                                  <datalist id ="type" class="form-control" style="display:none;">
-                                      {foreach $types as $type}
-                                            <option>{$type['type']}</option>
-                                      {/foreach}
-                                  </datalist>
-                                  <label for="inputContent" class="col-sm-2 control-label">Name</label>
-                                  <input type = "text" name="name" class="form-control" >
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <div style="display:flex;">
-                                  <label for="inputContent" class="col-sm-2 control-label">Quantity</label>
-                                  <input type = "number" name="quantity" class="form-control" min = "0">
-                                  <label for="inputContent" class="col-sm-2 control-label">Price</label>
-                                  <input type = "number" name="price" class="form-control" min = "0" >
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              <div style="display:flex;">
-                                  <label for="inputContent" class="col-sm-2 control-label">Description</label>
-                                  <textarea name="description" class="form-control" rows="3"></textarea>
+                                  <label for="inputContent" class="col-sm-2 control-label">Password</label>
+                                  <input type = "password" name="password" class="form-control">
+                                  <input id = "edit_id" type = "hidden" name="edit_id" class="form-control">
                               </div>
                           </div>
                           <div class=" form-group modal-body">
                               <div class="form-group modal-footer" id="modal_footer">
-                                  <input type="submit" name ="submit_product" class = "btn btn-primary" value="送出">
+                                  <input type="submit" name ="edit_password" class = "btn btn-primary" value="送出">
                               </div>
                           </div>
                       </form>

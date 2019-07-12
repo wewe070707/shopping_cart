@@ -45,6 +45,17 @@
 
             return $output;
         }
+
+        public function checkTrans($trans_id){
+            $url = "http://phili.test/wallet.class.php?action=check_trans_status&trans_id=".$trans_id;
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+            $output = curl_exec($ch);
+            curl_close($ch);
+
+            return $output;
+        }
     }
 
 ?>

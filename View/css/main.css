@@ -72,7 +72,7 @@ body {
     transition: max-height 0.2s ease-out;
     background-color: #f1f1f1;
 }
-#recharge > form > label,#change > form > label{
+#recharge_other > form > label,#change > form > label,#recharge_self > form > label{
     display:block;
     max-width: 400px;
     height:50px;

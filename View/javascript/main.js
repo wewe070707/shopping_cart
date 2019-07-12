@@ -45,7 +45,23 @@ if ( window.history.replaceState ) {
     window.history.replaceState( null, null, window.location.href );
 }
 
+$('#add').click(function(){
+    document.getElementById('recharge').style.display = '';
+    document.getElementById('change').style.display = 'none';
+    document.getElementById('recharge_self').style.display = '';
+    // document.getElementById("recharge").style.visibility = "hidden";
+})
 
+$('#ext').click(function(){
+    document.getElementById('change').style.display = '';
+    document.getElementById('recharge').style.display = 'none';
+    // document.getElementById("recharge").style.visibility = "hidden";
+})
+
+$('#editPassword').on('show.bs.modal', function(e) {
+    var product = $(e.relatedTarget).data('id');
+    $("#edit_id").val(product);
+  });
 
 var coll = document.getElementsByClassName("collapsible");
 var i;
