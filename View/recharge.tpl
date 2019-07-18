@@ -48,7 +48,7 @@
                         <span class="" style="">► 1.</span>
                         您要儲值的點數為<i class="fas fa-coins fa-2x" style = "color:#e6c61e;"></i> E 幣
                     </label>
-                    {* <label>
+                    {* <label> 
                         <span class="" style="">► 2.</span>
                         您要儲值的帳戶id:<input type="text" style="margin-left:1em;" name = "account_id" required>
                     </label> *}
@@ -104,12 +104,12 @@
                         <span class="" style="">► 1.</span>
                         您目前將要用 <i class="fas fa-coins fa-2x" style = "color:#e6c61e;"></i> E 幣 兌換為 NT$
                     </label>
-                    <label>
+                    {* <label>
                         <span class="" style="">► 2.</span>
                         您的帳戶:<input type="text" style="margin-left:1em;" name = "account_id" required>
-                    </label>
+                    </label> *}
                     <label>
-                        <span class="" style="">► 3.</span>
+                        <span class="" style="">► 2.</span>
                         您要兌換的面額
                     </label>
                     <div id="money">

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-06-28 10:22:28
+/* Smarty version 3.1.33, created on 2019-07-18 15:53:55
   from 'C:\xampp\htdocs\shopping_cart\view\profile.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d1579e402dd70_37352472',
+  'unifunc' => 'content_5d302593111564_39292310',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5171ad6f8084894d64ed65525b586eddf27898f5' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\profile.tpl',
-      1 => 1561688530,
+      1 => 1563432747,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d1579e402dd70_37352472 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d302593111564_39292310 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\xampp\\htdocs\\shopping_cart\\libs\\plugins\\modifier.date_format.php','function'=>'smarty_modifier_date_format',),));
 ?>
 <div class = "container" style = "background-image:/uploads/123.png">

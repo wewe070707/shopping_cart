@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-07-12 14:07:15
+/* Smarty version 3.1.33, created on 2019-07-17 14:37:25
   from 'C:\xampp\htdocs\shopping_cart\view\recharge.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d282393d45545_61365724',
+  'unifunc' => 'content_5d2ec2255cfc79_45662522',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '8dd000a12f223f0f630581713c7c2f916525d095' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\recharge.tpl',
-      1 => 1562911600,
+      1 => 1563345444,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d282393d45545_61365724 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d2ec2255cfc79_45662522 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div class = "container">
     <div class = "row">
         <div class = "col-lg-10">
@@ -123,12 +123,8 @@ function content_5d282393d45545_61365724 (Smarty_Internal_Template $_smarty_tpl)
                         <span class="" style="">► 1.</span>
                         您目前將要用 <i class="fas fa-coins fa-2x" style = "color:#e6c61e;"></i> E 幣 兌換為 NT$
                     </label>
-                    <label>
+                                        <label>
                         <span class="" style="">► 2.</span>
-                        您的帳戶:<input type="text" style="margin-left:1em;" name = "account_id" required>
-                    </label>
-                    <label>
-                        <span class="" style="">► 3.</span>
                         您要兌換的面額
                     </label>
                     <div id="money">

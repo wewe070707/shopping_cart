@@ -3,6 +3,32 @@
 
 </head>
 <?php
+// $ret = Database::get()->execute("INSERT INTO recharge (user_id,target_account,money,e_coin,status) VALUES (35,123456,1000,1050,1)",array());
+// $id = Database::get()->getLastId();
+// var_dump($ret);
+// var_dump($id);
+try {
+$conn = new PDO("mysql:host=localhost;dbname=shopping_cart", 'root', '');
+// set the PDO error mode to exception
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+echo "Connected successfully"; 
+}
+catch(PDOException $e)
+{
+echo "Connection failed: " . $e->getMessage();
+};
+// sleep(5);
+$ret = $conn->exec("INSERT INTO recharge (user_id,target_account,money,e_coin,status) VALUES (4,123456,1000,1050,0)");
+if($ret){
+    echo 'suc';
+} else {
+    header('Location: test123');
+}
+var_dump($ret);
+// $wallet = new Wallet();
+// $output = $wallet->checkTrans(7777);
+// var_dump($output);
+
 
 // echo"INSERT INTO recharge (user_id,target_account,money,e_coin,status) VALUES (".$_SESSION['id'].",".$users[0]['wallet_account'].",".$money.",".$_POST['e_coin'].","."1".")";
 // Database::get()->execute("UPDATE users SET e_coin = 400,money = 300 WHERE id = 2",array());

@@ -133,8 +133,9 @@ $(function() {
 //For bootstrap tab clcik to add # to url and show tab content
 $(function(){
     var hash = window.location.hash;
-    // alert(hash);
+//     // alert(hash);
     var splits = hash.split('#');
+    // alert(splits);
     if(splits.length == 3 ){
         ('#'+splits[1]) && $('ul.nav a[href="' + ('#'+splits[1]) + '"]').tab('show');
         ('#order#'+splits[2]) && $('ul.nav a[href="' + ('#order#'+splits[2]) + '"]').tab('show');
