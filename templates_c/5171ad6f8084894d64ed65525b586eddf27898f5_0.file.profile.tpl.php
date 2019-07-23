@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-07-18 15:53:55
+/* Smarty version 3.1.33, created on 2019-07-19 11:31:19
   from 'C:\xampp\htdocs\shopping_cart\view\profile.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5d302593111564_39292310',
+  'unifunc' => 'content_5d313987ea6079_97172869',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5171ad6f8084894d64ed65525b586eddf27898f5' => 
     array (
       0 => 'C:\\xampp\\htdocs\\shopping_cart\\view\\profile.tpl',
-      1 => 1563432747,
+      1 => 1563507076,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5d302593111564_39292310 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5d313987ea6079_97172869 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\xampp\\htdocs\\shopping_cart\\libs\\plugins\\modifier.date_format.php','function'=>'smarty_modifier_date_format',),));
 ?>
 <div class = "container" style = "background-image:/uploads/123.png">
@@ -384,5 +384,19 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
         </div>
     </div>
 </div>
-<?php }
+<?php echo '<script'; ?>
+>
+if (!localStorage.getItem("reload")) {
+    /* set reload to true and then reload the page */
+    localStorage.setItem("reload", "true");
+    location.reload();
+}
+/* after reloading remove "reload" from localStorage */
+else {
+    localStorage.removeItem("reload");
+    // localStorage.clear(); // or clear it, instead
+}
+
+<?php echo '</script'; ?>
+><?php }
 }

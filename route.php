@@ -952,39 +952,67 @@ switch($path){
                 $trans_id= mt_rand(100, 999);
                 $coin = $_POST['coin'];
                 $users = Database::get()->execute('SELECT * FROM users WHERE id = '.$_SESSION['id'],array());
-                $url = "http://phili.test/wallet.class.php?action=update_wallet&userid=".$users[0]['wallet_account'] ."&amount=-".$coin. "&trans_id=".$trans_id;
-                $url2 = "http://phili.test/wallet.class.php?action=get_wallet&userid=".$users[0]['wallet_account'];
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
-                $output = curl_exec($ch);
-                curl_setopt($ch, CURLOPT_URL, $url2);
-                $output2 = curl_exec($ch);
-                curl_close($ch);
-                if (strpos($output, 'true') !== false) {
-                    $data_array = array(
-                        'user_id' => $_SESSION['id'],
-                        'target_account' => $_SESSION['transfer_target_account'],
-                        'money' => $coin,
-                        'e_coin' => $_POST['e_coin'],
-                        'status' => 0                   // 0 indicate recharge
-                    );
-                    Database::get()->insert("recharge",$data_array);
-                    $output2 = json_decode($output2,true);
-                    $data_array = array(
-                        'money' => $output2['data'][0]['amount']
-                    );
-                    Database::get()->update("users",$data_array,'id',$_SESSION['id']);
-                    $data_array = array(
-                        'e_coin' => $coin
-                    );
-                    Database::get()->execute("UPDATE users SET e_coin = e_coin +".$coin ." WHERE wallet_account = ".$_SESSION['transfer_target_account'],array());
 
-                    $smarty->display('view/layout/header.tpl');
-                    $smarty->display('view/transfer.tpl');
-                    $smarty->display('view/layout/footer.tpl');
+                $wallet = new Wallet();
+                $output = $wallet->updateWallet($users[0]['wallet_account'],$coin,$trans_id,'-');
+                $output2 = $wallet->getWallet($users[0]['wallet_account']);
+                $output2 = json_decode($output2,true);
+
+                
+                if (strpos($output, 'true') !== false) {
+                    // $data_array = array(
+                    //     'user_id' => $_SESSION['id'],
+                    //     'target_account' => $_SESSION['transfer_target_account'],
+                    //     'money' => $coin,
+                    //     'e_coin' => $_POST['e_coin'],
+                    //     'status' => 0                   // 0 indicate recharge
+                    // );
+                    // Database::get()->insert("recharge",$data_array);
+                    Database::get()->execute("INSERT INTO recharge (user_id,target_account,money,e_coin,status) VALUES (".$_SESSION['id'].",".$_SESSION['transfer_target_account'].",".$coin.",".$_POST['e_coin'].","."0".")",array());
+                    
+                    // $data_array = array(
+                    //     'money' => $output2['data'][0]['amount']
+                    // );
+                    // Database::get()->update("users",$data_array,'id',$_SESSION['id']);
+                    // Database::get()->execute("UPDATE users SET e_coin = e_coin +".$coin ." WHERE wallet_account = ".$_SESSION['transfer_target_account'],array());
+                    $ret = $conn->exec("UPDATE users SET e_coin = e_coin +".$coin .",money = money - ".$output2['data'][0]['amount']." WHERE wallet_account = ".$_SESSION['transfer_target_account']);
+                    if($ret){
+                        $smarty->display('view/layout/header.tpl');
+                        $smarty->display('view/transfer.tpl');
+                        $smarty->display('view/layout/footer.tpl');
+                    }else{
+                        $smarty->display('view/layout/header.tpl');
+                        echo "<div class = 'container'><div class='alert alert-danger '>操作失敗，出現未知錯誤，請聯絡...<a href='#' class='close' data-dismiss='alert' aria-label='close'>×</a></div></div>";
+                        $smarty->display('view/layout/footer.tpl');
+                    }
+                    
                 } else {
-                    echo "<div class = 'container'><div class='alert alert-danger '>Fail transfer.<a href='#' class='close' data-dismiss='alert' aria-label='close'>×</a></div></div>";
+                    for ($i = 0; $i < 5; $i++){
+                        $checkTransResult = $wallet->checkTrans($trans_id);
+                        if(strpos($checkTransResult, 'true')){
+                            break;
+                        }
+                        sleep(1);
+                    }
+                    
+                    if(strpos($checkTransResult,'true')){
+                        Database::get()->execute("INSERT INTO recharge (user_id,target_account,money,e_coin,status) VALUES (".$_SESSION['id'].",".$_SESSION['transfer_target_account'].",".$coin.",".$_POST['e_coin'].","."0".")",array());
+                        $output2 = json_decode($output2,true);
+                        $ret = $conn->exec("UPDATE users SET e_coin = e_coin +".$coin .",money = money - ".$output2['data'][0]['amount']." WHERE wallet_account = ".$_SESSION['transfer_target_account']);
+                        if($ret){
+                            $smarty->display('view/layout/header.tpl');
+                            $smarty->display('view/transfer.tpl');
+                            $smarty->display('view/layout/footer.tpl');
+                        } else{
+                            $smarty->display('view/layout/header.tpl');
+                            echo "<div class = 'container'><div class='alert alert-danger '>操作失敗，出現未知錯誤，請聯絡...<a href='#' class='close' data-dismiss='alert' aria-label='close'>×</a></div></div>";
+                            $smarty->display('view/layout/footer.tpl');
+                        }
+                    } else{
+                        $smarty->display('view/layout/header.tpl');
+                        echo "<div class = 'container'><div class='alert alert-danger '>操作失敗<a href='#' class='close' data-dismiss='alert' aria-label='close'>×</a></div></div>";
+                        $smarty->display('view/layout/footer.tpl');
+                    }
                 }
         } elseif(isset($_POST['change'])){
             $trans_id= mt_rand(100, 999);
@@ -998,12 +1026,12 @@ switch($path){
             // $db->query("UPDATE users SET e_coin = e_coin -".$_POST['e_coin'] .",money = money + ".$money." WHERE id = ".$_SESSION['id']);
             
             // Db part
-            $ret = $conn->exec("UPDATE users SET e_coin = e_coin -".$_POST['e_coin'] .",money = money + ".$money." WHERE id = ".$_SESSION['id']);           
+            $ret = $conn->exec("UPDATE users SET e_coin = e_coin -".$_POST['e_coin'] .",money = money + ".$money." WHERE id = ".$_SESSION['id']);
             
             if($ret){
                 // Wallet api part
                 $wallet = new Wallet();
-                $output = $wallet->updateWallet($users[0]['wallet_account'],$money,$trans_id);
+                $output = $wallet->updateWallet($users[0]['wallet_account'],$money,$trans_id,'+');
                 $output2 = $wallet->getWallet($users[0]['wallet_account']);
                 $output2 = json_decode($output2,true);
 

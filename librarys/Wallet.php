@@ -34,9 +34,14 @@
             return $output;
         }
 
-        public function updateWallet($user_id,$money,$trans_id)
+        public function updateWallet($user_id,$money,$trans_id,$type)
         {
-            $url = "http://phili.test/wallet.class.php?action=update_wallet&userid=".$user_id ."&amount=-".$money. "&trans_id=".$trans_id;
+            if($type == "-"){
+                $url = "http://phili.test/wallet.class.php?action=update_wallet&userid=".$user_id ."&amount=-".$money. "&trans_id=".$trans_id;
+            } elseif($type == "+"){
+                $url = "http://phili.test/wallet.class.php?action=update_wallet&userid=".$user_id ."&amount=".$money. "&trans_id=".$trans_id;
+            }
+            
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
